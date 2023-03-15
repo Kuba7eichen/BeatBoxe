@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingElement: MonoBehaviour
+public abstract class MovingElement : MonoBehaviour
 {
     public enum ElementType
     {
@@ -17,6 +17,8 @@ public class MovingElement: MonoBehaviour
     }
 
     [SerializeField] private float _speed;
+
+    [SerializeField] public ElementType type;
 
     // Start is called before the first frame update
     void Start()
