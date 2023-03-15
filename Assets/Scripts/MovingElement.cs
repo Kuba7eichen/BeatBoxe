@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MovingElement: MonoBehaviour
+public abstract class MovingElement : MonoBehaviour
 {
     public enum ElementType
     {

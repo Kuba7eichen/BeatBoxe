@@ -7,14 +7,17 @@ public class PoolSignal : MonoBehaviour
 
     public Spawner spawner;
 
+    private MovingElement movingElement;
+
     private void Start()
-    {
-        // Méthode 1
-        //spawner = GameObject.FindObjectOfType<Spawner>();
+    {        
+        spawner = FindObjectOfType<Spawner>();
+
+        movingElement = GetComponent<MovingElement>();
     }
 
     private void OnDisable()
     {
-        spawner.AddToPool(gameObject);
+        spawner.AddToPool(movingElement);
     }
 }
