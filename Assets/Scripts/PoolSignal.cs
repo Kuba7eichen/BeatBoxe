@@ -10,9 +10,7 @@ public class PoolSignal : MonoBehaviour
     private MovingElement movingElement;
 
     private void Start()
-    {        
-        spawner = FindObjectOfType<Spawner>();
-
+    {       
         movingElement = GetComponent<MovingElement>();
     }
 

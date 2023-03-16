@@ -5,7 +5,6 @@ using static MovingElement;
 
 public class Spawner : MonoBehaviour
 {
-
     [SerializeField] private GameObject[] prefabsToSpawn;
 
     [SerializeField] private int nbOfEachPrefabToInstantiate = 8;
@@ -45,16 +44,16 @@ public class Spawner : MonoBehaviour
     private GameObject InstantiateObject(GameObject prefabToInstantiate)
     {
         GameObject monObjet = Instantiate(prefabToInstantiate);
-      //  monObjet.GetComponent<PoolSignal>().spawner = this;      Inutile car l'objet MovingElement cherche le spawner.
+        monObjet.GetComponent<PoolSignal>().spawner = this;
         monObjet.SetActive(false);
         return monObjet;
-    }   
+    }
 
 
     // Make a Moving element object of a certain type
     private MovingElement SpawnFromStack(Stack<MovingElement> Stack)
     {
-        MovingElement objectToSpawn = Stack.Pop();       
+        MovingElement objectToSpawn = Stack.Pop();
         objectToSpawn.gameObject.SetActive(true);
         return objectToSpawn;
     }
