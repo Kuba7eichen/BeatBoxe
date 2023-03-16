@@ -2015,6 +2015,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 737561008}
+    - target: {fileID: 2286592433622859952, guid: 61e44318fefd25b4190418cb5ac00175,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2286592433843302276, guid: 61e44318fefd25b4190418cb5ac00175,
         type: 3}
       propertyPath: m_Name
