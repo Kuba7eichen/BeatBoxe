@@ -18,7 +18,7 @@ public abstract class MovingElement : MonoBehaviour
 
     [SerializeField] private float _speed;
 
-    public ElementType type;
+    [SerializeField] public ElementType type;
 
     // Start is called before the first frame update
     void Start()
