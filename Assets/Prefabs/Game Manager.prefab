@@ -46,10 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb367d009828bfc4fb50f181c6f263e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 0
   head: {fileID: 0}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
   multiplierAudioSource: {fileID: 4902764913463121335}
+  database: {fileID: 11400000, guid: 2f7dd1d6ddf6d6744af8ada26d707d6b, type: 2}
+  spawner: {fileID: 0}
 --- !u!82 &6262175765389704298
 AudioSource:
   m_ObjectHideFlags: 0

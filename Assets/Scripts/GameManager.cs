@@ -100,7 +100,9 @@ public class GameManager : MonoBehaviour
     {
         if (musicAudioSource.time >= database.DatabaseEntries[nextSpawnIndex].SpawnSecond)
         {
-            spawner.SpawnObject(database.DatabaseEntries[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>().type);
+            MovingElement objectToSpawn = database.DatabaseEntries[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
+
+            spawner.SpawnObject(objectToSpawn.type, database.DatabaseEntries[nextSpawnIndex].Lane);
             
             if (nextSpawnIndex < database.DatabaseEntries.Length)
             {
