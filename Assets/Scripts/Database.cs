@@ -14,7 +14,7 @@ namespace CCSystem
         public class Timestamp
         {
             public float SpawnSecond;
-            public int Lane;
+            [Range(1, 3)] public int Lane;
             public GameObject prefabToSpawn;
         }
 

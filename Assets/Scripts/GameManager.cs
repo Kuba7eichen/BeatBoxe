@@ -2,6 +2,7 @@ using CCSystem;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] private Spawner spawner;
 
+    private bool lastObjectSpawned = false;
 
 
 
@@ -110,15 +112,23 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (musicAudioSource.time >= database.DatabaseEntries[nextSpawnIndex].SpawnSecond)
+        if (!lastObjectSpawned)
         {
-            MovingElement objectToSpawn = database.DatabaseEntries[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
 
-            spawner.SpawnObject(objectToSpawn.type, database.DatabaseEntries[nextSpawnIndex].Lane);
-            
-            if (nextSpawnIndex < database.DatabaseEntries.Length - 1)
+            if (musicAudioSource.time >= database.DatabaseEntries[nextSpawnIndex].SpawnSecond)
             {
-                nextSpawnIndex++;
+
+
+                MovingElement objectToSpawn = database.DatabaseEntries[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
+
+                spawner.SpawnObject(objectToSpawn.type, database.DatabaseEntries[nextSpawnIndex].Lane);
+
+                if (nextSpawnIndex < database.DatabaseEntries.Length - 1)
+                {
+                    nextSpawnIndex++;
+
+                }
+                else if (nextSpawnIndex == database.DatabaseEntries.Length - 1) lastObjectSpawned = true;
             }
         }
     }
