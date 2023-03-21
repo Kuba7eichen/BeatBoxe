@@ -7,6 +7,8 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] prefabsToSpawn;
 
+    [SerializeField] private Transform[] spawnPoints;
+
     [SerializeField] private int nbOfEachPrefabToInstantiate = 8;
 
 
@@ -24,7 +26,7 @@ public class Spawner : MonoBehaviour
     private Stack<MovingElement> disabled_To_Parry = new Stack<MovingElement>();
 
 
-    
+
 
 
     private void Start()
@@ -90,11 +92,10 @@ public class Spawner : MonoBehaviour
     }
 
 
-    public MovingElement SpawnObject(ElementType type)
+    public MovingElement SpawnObject(ElementType type, int lane)
     {
-
-        return SpawnFromStack(EnumToStack(type));
-
+        MovingElement objectToSpawn = SpawnFromStack(EnumToStack(type));
+        objectToSpawn.transform.position = spawnPoints[lane - 1].position;
+        return objectToSpawn;
     }
-
 }
