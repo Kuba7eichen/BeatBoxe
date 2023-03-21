@@ -10,26 +10,29 @@ public class GameManager : MonoBehaviour
 
     public int multiplier = 1;
 
-    [SerializeField] Transform head;
-    [SerializeField] Transform leftHand;
-    [SerializeField] Transform rightHand;
+    public Transform head;
+    public Transform leftHand;
+    public Transform rightHand;
 
-    public static GameManager instance;
+    private static GameManager instance;
 
+    public static GameManager Instance 
+    {
+        get 
+        {
+            if (instance != null) return instance;
+            else
+            {
+                instance = new GameManager();
+                return instance;
+            }
+        }
+    }
     private void Awake()
     {
         instance = this;
     }
 
-    public static GameManager GameManagerInstance()
-    {
-        if (instance != null) return instance;
-        else
-        {
-            instance = new GameManager();
-            return instance;
-        }
-    }
 
     void Start()
     {
