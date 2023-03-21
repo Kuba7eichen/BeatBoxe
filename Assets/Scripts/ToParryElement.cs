@@ -10,15 +10,19 @@ public class ToParryElement : MovingElement
     private float _maxBlockingAngle;
     private float _maxBlockingDistance;
 
+    private LayerMask layerMask;
+
+
     private Transform _head, _leftHand, _rightHand;
 
     // Start is called before the first frame update
     void Start()
     {
         _gameManager = GameManager.Instance;
-        _head = _gameManager.head;
-        _leftHand = _gameManager.leftHand;
-        _rightHand = _gameManager.rightHand;
+        layerMask = _gameManager.PlayerMask;
+        _head = _gameManager.Head;
+        _leftHand = _gameManager.LeftHand;
+        _rightHand = _gameManager.RightHand;
     }
 
     // Update is called once per frame
@@ -31,8 +35,10 @@ public class ToParryElement : MovingElement
     {
         base.OnTriggerEnter(other);
 
-        isBlockCorrect = CheckIfBlocking(other);
-
+        if (CheckIfBlocking(other) && (layerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        {
+            Debug.Log("Hit with Layermask");
+        }
 
     }
     //Checks from which side the attack came, thus telling weather it was the correct attack
