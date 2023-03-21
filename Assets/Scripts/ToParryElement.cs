@@ -8,6 +8,7 @@ public class ToParryElement : MovingElement
 
     private GameManager gameManager;
     private float maxBlockingAngle;
+    private float maxBlockingDistance;
 
     // Start is called before the first frame update
     void Start()
@@ -34,9 +35,9 @@ public class ToParryElement : MovingElement
     {
         if (other)// is a hand
         {
-            if (Mathf.Abs(Vector3.Angle(Vector3.forward, other.transform.position - head.transfrom.position)) < maxBlockingAngle)
+            if (Mathf.Abs(Vector3.Angle(Vector3.forward, other.transform.position - head.position)) < maxBlockingAngle)
             {
-                if(Mathf.Abs(Vector3.Angle(Vector3.right, righttHand.transform.position - leftHand.transfrom.position)) < maxBlockingAngle && Vector3.Distance(righttHand.transform.position, leftHand.transfrom.position < 0.3f))
+                if(Mathf.Abs(Vector3.Angle(Vector3.right, righttHand.position - leftHand.position)) < maxBlockingAngle && Vector3.Distance(righttHand.transform.position, leftHand.transfrom.position < maxBlockingDistance))
                 {
                     return true;
                 }
