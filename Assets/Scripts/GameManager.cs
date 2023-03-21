@@ -2,8 +2,10 @@ using CCSystem;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 // The Music AudioSource must be attached to the Game Manager game object.
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour
     private AudioSource musicAudioSource;
 
     [SerializeField] AudioSource multiplierAudioSource;
+    [SerializeField] AudioClip[] musicClips;
 
     private static GameManager instance;
 
@@ -85,23 +88,39 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Database database;
     private int nextSpawnIndex = 0;
-    
+
     [SerializeField] private Spawner spawner;
 
     private bool lastObjectSpawned = false;
 
+
+    [SerializeField] TMP_Dropdown musicChoiceDropdown;
 
 
     // DEBUG : LANCEMENT DE LA MUSIQUE AU CHARGEMENT POUR TESTER LE SPAWN
     private void Start()
     {
         musicAudioSource.Play();
+
+        BuildMusicChoiceDropdown();
+
     }
 
+    private void BuildMusicChoiceDropdown()
+    {
+        musicChoiceDropdown.ClearOptions();
 
+        // Créer une liste d'options à partir du tableau de musiques
+        var options = new List<TMP_Dropdown.OptionData>();
 
+        for (int i = 0; i < musicClips.Length; i++)
+        {
+            options.Add(new TMP_Dropdown.OptionData("Music " + (i + 1)));
+        }
 
-
+        // Ajouter les options au Dropdown
+        musicChoiceDropdown.AddOptions(options);
+    }
 
     private void Awake()
     {
@@ -169,6 +188,28 @@ public class GameManager : MonoBehaviour
         else { musicAudioSource?.Play(); }
 
         return gamePaused;
+    }
+
+
+    public void ChangeMusic(int musicIndex)
+    {
+        musicIndex = Mathf.Clamp(musicIndex, 0, musicClips.Length - 1);
+        musicAudioSource.clip = musicClips[musicIndex];
+        musicAudioSource.Play();
+    }
+
+
+
+    public void QuitGame()
+    {
+        // save any game data here
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor so
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+             Application.Quit();
+#endif
     }
 
 
