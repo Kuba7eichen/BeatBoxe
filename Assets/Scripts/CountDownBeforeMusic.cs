@@ -42,7 +42,7 @@ public class CountDownBeforeMusic : MonoBehaviour
             countDownText.text = "";            
             countDownText.gameObject.SetActive(false);          
          
-
+            GameManager.Instance.TogglePause();
 
         }
 
