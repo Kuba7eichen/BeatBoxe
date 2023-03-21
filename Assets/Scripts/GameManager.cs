@@ -1,5 +1,7 @@
+using CCSystem;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -45,8 +47,8 @@ public class GameManager : MonoBehaviour
     }
 
 
-   
-    
+
+
     [SerializeField] private LayerMask playerMask;
     public LayerMask PlayerMask { get { return playerMask; } }
 
@@ -80,12 +82,32 @@ public class GameManager : MonoBehaviour
     }
 
 
+    [SerializeField] private Database database;
+    private int nextSpawnIndex = 0;
+    
+    [SerializeField] private Spawner spawner;
+
+
     private void Awake()
     {
         instance = this;
         musicAudioSource = GetComponent<AudioSource>();
     }
 
+
+
+    private void Update()
+    {
+        if (musicAudioSource.time >= database.DatabaseEntries[nextSpawnIndex].SpawnSecond)
+        {
+            spawner.SpawnObject(database.DatabaseEntries[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>().type);
+            
+            if (nextSpawnIndex < database.DatabaseEntries.Length)
+            {
+                nextSpawnIndex++;
+            }
+        }
+    }
 
 
     public void UpdateMultiplier(int pointsToAdd)
@@ -104,7 +126,6 @@ public class GameManager : MonoBehaviour
         {
             gameOver = true;
         }
-
     }
 
 
@@ -127,6 +148,4 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-   
 }
