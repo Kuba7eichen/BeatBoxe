@@ -16,7 +16,7 @@ public abstract class MovingElement : MonoBehaviour
         TOPARRY
     }
 
-    [SerializeField] private float _speed;
+    private float _speed;
 
     [SerializeField] public ElementType type;
 
