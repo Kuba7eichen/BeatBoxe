@@ -45,10 +45,20 @@ public class GameManager : MonoBehaviour
     }
 
 
+   
+    
+    [SerializeField] private LayerMask playerMask;
+    public LayerMask PlayerMask { get { return playerMask; } }
 
-    public Transform head;
-    public Transform leftHand;
-    public Transform rightHand;
+    [SerializeField] private Transform head;
+    [SerializeField] private Transform leftHand;
+    [SerializeField] private Transform rightHand;
+
+
+    public Transform Head { get { return head; } }
+    public Transform LeftHand { get { return leftHand; } }
+    public Transform RightHand { get { return rightHand; } }
+
 
     private AudioSource musicAudioSource;
 
