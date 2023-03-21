@@ -17,25 +17,25 @@ namespace CCSystem
             public int Lane;
             public GameObject prefabToSpawn;
         }
-    
+
         [System.Serializable]
         public class Entry
-        {            
-            public Timestamp[] SpawnEvent = new Timestamp[0];
-        }
-
-        public Entry[] DatabaseEntries = new Entry[0];
-
-        Dictionary<AudioClip, Entry> m_AudioToEntryMap;
-
-        public void BuildMap()
         {
-            m_AudioToEntryMap = new Dictionary<AudioClip, Entry>();
-            for (int i = 0; i < DatabaseEntries.Length; ++i)
-            {
-              //  m_AudioToEntryMap.Add(DatabaseEntries[i].clip, DatabaseEntries[i]);
-            }
+            public Timestamp[] SpawnEvents = new Timestamp[0];
         }
+
+        public Timestamp[] DatabaseEntries = new Timestamp[0];
+
+        // private Dictionary<AudioClip, Entry> spawnEventsTimeline;
+
+        //public void BuildMap()
+        //{
+        //    spawnEventsTimeline = new Dictionary<AudioClip, Entry>();
+        //    for (int i = 0; i < DatabaseEntries.Length; ++i)
+        //    {
+        //        spawnEventsTimeline.Add(DatabaseEntries[i].clip, DatabaseEntries[i]);
+        //    }
+        //}
 
         //public string GetTextEntry(AudioClip clip, float time)
         //{
