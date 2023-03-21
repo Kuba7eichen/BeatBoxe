@@ -88,12 +88,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Spawner spawner;
 
 
+
+
+    // DEBUG : LANCEMENT DE LA MUSIQUE AU CHARGEMENT POUR TESTER LE SPAWN
+    private void Start()
+    {
+        musicAudioSource.Play();
+    }
+
+
+
+
+
+
     private void Awake()
     {
         instance = this;
         musicAudioSource = GetComponent<AudioSource>();
     }
-
 
 
     private void Update()
@@ -104,7 +116,7 @@ public class GameManager : MonoBehaviour
 
             spawner.SpawnObject(objectToSpawn.type, database.DatabaseEntries[nextSpawnIndex].Lane);
             
-            if (nextSpawnIndex < database.DatabaseEntries.Length)
+            if (nextSpawnIndex < database.DatabaseEntries.Length - 1)
             {
                 nextSpawnIndex++;
             }

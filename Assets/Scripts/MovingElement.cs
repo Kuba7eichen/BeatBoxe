@@ -16,7 +16,7 @@ public abstract class MovingElement : MonoBehaviour
         TOPARRY
     }
 
-    private float _speed;
+    public float speed;
 
     [SerializeField] public ElementType type;
 
@@ -27,9 +27,9 @@ public abstract class MovingElement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
-        transform.position += (_speed * Time.deltaTime) * Vector3.back;
+        transform.position += (speed * Time.deltaTime) * Vector3.back;
     }
 
     protected void OnTriggerEnter(Collider other)

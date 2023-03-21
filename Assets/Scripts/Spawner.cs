@@ -51,6 +51,8 @@ public class Spawner : MonoBehaviour
     {
         GameObject monObjet = Instantiate(prefabToInstantiate);
         monObjet.GetComponent<PoolSignal>().spawner = this;
+
+        monObjet.GetComponent<MovingElement>().speed = 2;
         monObjet.SetActive(false);
         return monObjet;
     }

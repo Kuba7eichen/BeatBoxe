@@ -13,15 +13,19 @@ MonoBehaviour:
   m_Name: Music1Database
   m_EditorClassIdentifier: 
   DatabaseEntries:
-  - SpawnSecond: 1
-    Lane: 1
-    prefabToSpawn: {fileID: 0}
   - SpawnSecond: 2
-    Lane: 2
-    prefabToSpawn: {fileID: 0}
-  - SpawnSecond: 3
     Lane: 1
-    prefabToSpawn: {fileID: 0}
+    prefabToSpawn: {fileID: 6729365670997915213, guid: f1f97fe35441854459cd81d61670a8b1,
+      type: 3}
   - SpawnSecond: 4
+    Lane: 2
+    prefabToSpawn: {fileID: 6729365670997915213, guid: d12fe4b25a4cf4f4fb24b315b23fe808,
+      type: 3}
+  - SpawnSecond: 6
+    Lane: 1
+    prefabToSpawn: {fileID: 6729365670997915213, guid: 2a339afaa150aae499c248de5aa5fb46,
+      type: 3}
+  - SpawnSecond: 8
     Lane: 3
-    prefabToSpawn: {fileID: 0}
+    prefabToSpawn: {fileID: 6729365670997915213, guid: 9ab4a7ed564ba674cb9c2c2aeb8e9914,
+      type: 3}

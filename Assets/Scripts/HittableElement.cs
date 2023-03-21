@@ -13,9 +13,9 @@ public class HittableElement : MovingElement
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-        
+        base.Update();
     }
 
     new private void OnTriggerEnter(Collider other)

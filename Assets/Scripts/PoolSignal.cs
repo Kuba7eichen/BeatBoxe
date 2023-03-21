@@ -9,7 +9,7 @@ public class PoolSignal : MonoBehaviour
 
     private MovingElement movingElement;
 
-    private void Start()
+    private void Awake()
     {       
         movingElement = GetComponent<MovingElement>();
     }
