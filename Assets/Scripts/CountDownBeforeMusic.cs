@@ -27,7 +27,7 @@ public class CountDownBeforeMusic : MonoBehaviour
         menuBackgroundImage.gameObject.SetActive(false);
     }
 
-    IEnumerator Repeating()
+    private IEnumerator Repeating()
     {
         countDownText.text = (startNumber - repeatCount).ToString();
         if (audioSource != null && countAudioClip != null) { audioSource.PlayOneShot(countAudioClip); }

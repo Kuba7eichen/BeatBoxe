@@ -103,7 +103,6 @@ public class GameManager : MonoBehaviour
         musicAudioSource.Play();
 
         BuildMusicChoiceDropdown();
-
     }
 
     private void BuildMusicChoiceDropdown()
@@ -115,12 +114,13 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < musicClips.Length; i++)
         {
-            options.Add(new TMP_Dropdown.OptionData("Music " + (i + 1)));
+            options.Add(new TMP_Dropdown.OptionData(musicClips[i].name));
         }
 
         // Ajouter les options au Dropdown
         musicChoiceDropdown.AddOptions(options);
     }
+
 
     private void Awake()
     {
