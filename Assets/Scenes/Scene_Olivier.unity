@@ -170,7 +170,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 242025993}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.2, y: 0, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9027655232eae4d959d7ca585fecdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 242025995}
+  timeOffset: 0.46
 --- !u!114 &254837601 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2286592433330082362, guid: 61e44318fefd25b4190418cb5ac00175,
@@ -2354,7 +2354,7 @@ PrefabInstance:
       objectReference: {fileID: 254837601}
     - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
         type: 3}
-      propertyPath: animationOnBPMObject
+      propertyPath: animationOnBPMObject.Array.data[0]
       value: 
       objectReference: {fileID: 242025999}
     - target: {fileID: 7646426287238763618, guid: 2c4031011cdce3f469842c12efabc82f,
@@ -2421,11 +2421,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6404286634329604480, guid: eeecea5bac6aee742bf5a9be3de1167e,
-        type: 3}
-      propertyPath: nbOfEachPrefabToInstantiate
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 6404286634329604481, guid: eeecea5bac6aee742bf5a9be3de1167e,
         type: 3}
       propertyPath: m_RootOrder

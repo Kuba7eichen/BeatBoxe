@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb367d009828bfc4fb50f181c6f263e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationOnBPMObject:
+  - {fileID: 0}
   playerMask:
     serializedVersion: 2
     m_Bits: 896
@@ -54,12 +56,9 @@ MonoBehaviour:
   rightHand: {fileID: 0}
   multiplierAudioSource: {fileID: 4902764913463121335}
   musics:
-  - musicClip: {fileID: 8300000, guid: b89c587eed8b1134fa055f2f59a1b5bb, type: 3}
-    musicDatabase: {fileID: 11400000, guid: 2f7dd1d6ddf6d6744af8ada26d707d6b, type: 2}
-  - musicClip: {fileID: 8300000, guid: c93eb25b5ac43e94d9733ce5ec54205c, type: 3}
-    musicDatabase: {fileID: 11400000, guid: 97dea8b23c3504b4aa14a10e495f5f4d, type: 2}
-  - musicClip: {fileID: 8300000, guid: 3ffd403b83af7c843b71b803face15e6, type: 3}
-    musicDatabase: {fileID: 11400000, guid: 2f7dd1d6ddf6d6744af8ada26d707d6b, type: 2}
+  - {fileID: 11400000, guid: 2f7dd1d6ddf6d6744af8ada26d707d6b, type: 2}
+  - {fileID: 11400000, guid: a15ccd7b0f1fa6c4dba9e6265ff01758, type: 2}
+  - {fileID: 11400000, guid: ad99c6b199e083142a46c79de30fc643, type: 2}
   spawner: {fileID: 0}
   musicChoiceDropdown: {fileID: 0}
 --- !u!82 &6262175765389704298

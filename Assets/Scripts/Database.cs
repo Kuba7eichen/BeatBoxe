@@ -13,8 +13,9 @@ namespace CCSystem
         [System.Serializable]
         public class MusicDatas
         {
+            public AudioClip audioClip;
             public float Bpm;
-            public float firstBpmDelay;
+            public float firstBpmDelay;            
         }
 
         [System.Serializable]
@@ -23,12 +24,6 @@ namespace CCSystem
             public float SpawnBeat;
             [Range(1, 3)] public int Lane;
             public GameObject prefabToSpawn;
-        }
-
-        [System.Serializable]
-        public class Entry
-        {
-            public Timestamp[] SpawnEvents = new Timestamp[0];
         }
 
 

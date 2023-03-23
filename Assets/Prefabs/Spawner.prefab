@@ -479,4 +479,4 @@ MonoBehaviour:
   - {fileID: 884743686}
   - {fileID: 1821878952}
   - {fileID: 1483411270}
-  nbOfEachPrefabToInstantiate: 1
+  nbOfEachPrefabToInstantiate: 8

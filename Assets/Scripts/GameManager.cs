@@ -9,15 +9,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-[Serializable]
-public class Music
-{
-    public AudioClip musicClip;
-    public Database musicDatabase;
-}
-
-
-
 // The Music AudioSource must be attached to the Game Manager game object.
 
 public class GameManager : MonoBehaviour
@@ -60,7 +51,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-    [SerializeField] AnimationOnBPM animationOnBPMObject;
+    [SerializeField] AnimationOnBPM[] animationOnBPMObject;
 
     [SerializeField] private LayerMask playerMask;
     public LayerMask PlayerMask { get { return playerMask; } }
@@ -78,7 +69,7 @@ public class GameManager : MonoBehaviour
     private AudioSource musicAudioSource;
 
     [SerializeField] AudioSource multiplierAudioSource;
-    [SerializeField] Music[] musics;
+    [SerializeField] Database[] musics;
     private int actualMusicIndex = 0;
 
     private static GameManager instance;
@@ -95,7 +86,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-           
+
     private int nextSpawnIndex = 0;
 
     [SerializeField] private Spawner spawner;
@@ -113,24 +104,23 @@ public class GameManager : MonoBehaviour
 
         BuildMusicChoiceDropdown();
         CheckMusicDatabases();
-
-        animationOnBPMObject.SetAnimatorBPM(musics[actualMusicIndex].musicDatabase.musicDatas.Bpm);
+        SetAnimatedObjectsBPM();
     }
 
-
+    
 
     private void CheckMusicDatabases()
     {
         for (int i = 0; i < musics.Length; i++)
         {
-            for (int j = 0; j < musics[i].musicDatabase.ObjectSpawns.Length; j++)
+            for (int j = 0; j < musics[i].ObjectSpawns.Length; j++)
             {
-                int originalLane = musics[i].musicDatabase.ObjectSpawns[j].Lane;
-                musics[i].musicDatabase.ObjectSpawns[j].Lane = Mathf.Clamp(musics[i].musicDatabase.ObjectSpawns[j].Lane, 1, 3);
-                
-                if (originalLane != musics[i].musicDatabase.ObjectSpawns[j].Lane)
+                int originalLane = musics[i].ObjectSpawns[j].Lane;
+                musics[i].ObjectSpawns[j].Lane = Mathf.Clamp(musics[i].ObjectSpawns[j].Lane, 1, 3);
+
+                if (originalLane != musics[i].ObjectSpawns[j].Lane)
                 {
-                    Debug.Log("Vous avez oublié de définir une lane pour un objet. Il a été placé par défaut sur la lane 1.");
+                    Debug.Log("Un objet à spawner n'a pas de lane assignée. Il a été placé par défaut sur la lane 1.");
                 }
             }
         }
@@ -145,7 +135,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < musics.Length; i++)
         {
-            options.Add(new TMP_Dropdown.OptionData(musics[i].musicClip.name));
+            options.Add(new TMP_Dropdown.OptionData(musics[i].musicDatas.audioClip.name));
         }
 
         // Ajoute les options au Dropdown
@@ -162,22 +152,23 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // On se cale sur le rythme du morceau. Chaque unité de musicTime vaut non pas une seconde mais un écart entre deux beats :
-        float musicTime = musicAudioSource.time * musics[actualMusicIndex].musicDatabase.musicDatas.Bpm / 60;
+        // On se cale sur le rythme du morceau. Chaque unité de musicTime vaut non pas une seconde mais un écart entre deux beats.
+        // Et tient compte du délai initial, pour que les spawns se calent bien sur les beats de la musique :
+        float musicTime = (musicAudioSource.time * musics[actualMusicIndex].musicDatas.Bpm / 60) - musics[actualMusicIndex].musicDatas.firstBpmDelay;
 
         if (!lastObjectSpawned)
         {
-            if (musicTime >= musics[actualMusicIndex].musicDatabase.ObjectSpawns[nextSpawnIndex].SpawnBeat)
+            if (musics[actualMusicIndex].ObjectSpawns.Length > 0 && musicTime >= musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].SpawnBeat)
             {
-                MovingElement objectToSpawn = musics[actualMusicIndex].musicDatabase.ObjectSpawns[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
+                MovingElement objectToSpawn = musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
 
-                spawner.SpawnObject(objectToSpawn.type, musics[actualMusicIndex].musicDatabase.ObjectSpawns[nextSpawnIndex].Lane);
+                spawner.SpawnObject(objectToSpawn.type, musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].Lane);
 
-                if (nextSpawnIndex < musics[actualMusicIndex].musicDatabase.ObjectSpawns.Length - 1)
+                if (nextSpawnIndex < musics[actualMusicIndex].ObjectSpawns.Length - 1)
                 {
                     nextSpawnIndex++;
                 }
-                else if (nextSpawnIndex == musics[actualMusicIndex].musicDatabase.ObjectSpawns.Length - 1) lastObjectSpawned = true;
+                else if (nextSpawnIndex == musics[actualMusicIndex].ObjectSpawns.Length - 1) lastObjectSpawned = true;
             }
         }
     }
@@ -224,12 +215,22 @@ public class GameManager : MonoBehaviour
     public void ChangeMusic(int musicIndex)
     {
         musicIndex = Mathf.Clamp(musicIndex, 0, musics.Length - 1);
-        musicAudioSource.clip = musics[musicIndex].musicClip;
+        musicAudioSource.clip = musics[musicIndex].musicDatas.audioClip;
         actualMusicIndex = musicIndex;
         musicAudioSource.Play();
-        animationOnBPMObject.SetAnimatorBPM(musics[actualMusicIndex].musicDatabase.musicDatas.Bpm);
+        SetAnimatedObjectsBPM();
     }
 
+
+
+    private void SetAnimatedObjectsBPM()
+    {
+        for (int i = 0; i < animationOnBPMObject.Length; i++)
+        {
+            animationOnBPMObject[i].SetAnimatorBPM(musics[actualMusicIndex].musicDatas.Bpm,
+                                                   musics[actualMusicIndex].musicDatas.firstBpmDelay);
+        }
+    }
 
 
     public void QuitGame()
@@ -243,6 +244,4 @@ public class GameManager : MonoBehaviour
              Application.Quit();
 #endif
     }
-
-
 }

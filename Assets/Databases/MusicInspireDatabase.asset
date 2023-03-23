@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MusicInspireDatabase
   m_EditorClassIdentifier: 
   musicDatas:
+    audioClip: {fileID: 8300000, guid: b89c587eed8b1134fa055f2f59a1b5bb, type: 3}
     Bpm: 96
     firstBpmDelay: 0
   ObjectSpawns:
@@ -77,6 +78,26 @@ MonoBehaviour:
     prefabToSpawn: {fileID: 6729365670997915213, guid: 2a339afaa150aae499c248de5aa5fb46,
       type: 3}
   - SpawnBeat: 20
+    Lane: 2
+    prefabToSpawn: {fileID: 6729365670997915213, guid: f1f97fe35441854459cd81d61670a8b1,
+      type: 3}
+  - SpawnBeat: 21
     Lane: 3
+    prefabToSpawn: {fileID: 6729365670997915213, guid: e73e9dd36b10046448b60c61116f2ace,
+      type: 3}
+  - SpawnBeat: 22
+    Lane: 1
     prefabToSpawn: {fileID: 6729365670997915213, guid: 2a339afaa150aae499c248de5aa5fb46,
+      type: 3}
+  - SpawnBeat: 23
+    Lane: 3
+    prefabToSpawn: {fileID: 6729365670997915213, guid: d12fe4b25a4cf4f4fb24b315b23fe808,
+      type: 3}
+  - SpawnBeat: 24
+    Lane: 2
+    prefabToSpawn: {fileID: 6729365670997915213, guid: 2a339afaa150aae499c248de5aa5fb46,
+      type: 3}
+  - SpawnBeat: 25
+    Lane: 1
+    prefabToSpawn: {fileID: 6729365670997915213, guid: 9ab4a7ed564ba674cb9c2c2aeb8e9914,
       type: 3}
