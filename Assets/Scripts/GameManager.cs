@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    [SerializeField] AnimationOnBPM animationOnBPMObject;
 
     [SerializeField] private LayerMask playerMask;
     public LayerMask PlayerMask { get { return playerMask; } }
@@ -112,13 +112,15 @@ public class GameManager : MonoBehaviour
         musicAudioSource.Play();
 
         BuildMusicChoiceDropdown();
-        CheckMusicDatabase();
+        CheckMusicDatabases();
+
+        animationOnBPMObject.SetAnimatorBPM(musics[actualMusicIndex].musicDatabase.musicDatas.Bpm);
     }
 
 
 
-    private void CheckMusicDatabase()
-    {        
+    private void CheckMusicDatabases()
+    {
         for (int i = 0; i < musics.Length; i++)
         {
             for (int j = 0; j < musics[i].musicDatabase.ObjectSpawns.Length; j++)
@@ -130,8 +132,8 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("Vous avez oublié de définir une lane pour un objet. Il a été placé par défaut sur la lane 1.");
                 }
-            }           
-        }       
+            }
+        }
     }
 
     private void BuildMusicChoiceDropdown()
@@ -224,7 +226,8 @@ public class GameManager : MonoBehaviour
         musicIndex = Mathf.Clamp(musicIndex, 0, musics.Length - 1);
         musicAudioSource.clip = musics[musicIndex].musicClip;
         actualMusicIndex = musicIndex;
-        musicAudioSource.Play();       
+        musicAudioSource.Play();
+        animationOnBPMObject.SetAnimatorBPM(musics[actualMusicIndex].musicDatabase.musicDatas.Bpm);
     }
 
 

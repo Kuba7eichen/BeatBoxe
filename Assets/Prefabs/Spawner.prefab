@@ -238,7 +238,7 @@ GameObject:
   m_Component:
   - component: {fileID: 884743686}
   m_Layer: 0
-  m_Name: SpawnPoints1
+  m_Name: Spawn Lane 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -367,7 +367,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1483411270}
   m_Layer: 0
-  m_Name: SpawnPoints3
+  m_Name: Spawn Lane 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -399,7 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1821878952}
   m_Layer: 0
-  m_Name: SpawnPoints2
+  m_Name: Spawn Lane 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -467,16 +467,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabsToSpawn:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 6729365670997915213, guid: dbe6f4eb6d3656845999b2de516cdbc1, type: 3}
+  - {fileID: 6729365670997915213, guid: f1f97fe35441854459cd81d61670a8b1, type: 3}
+  - {fileID: 6729365670997915213, guid: e73e9dd36b10046448b60c61116f2ace, type: 3}
+  - {fileID: 6729365670997915213, guid: 638d3594617fe414a9d7bfb15262f377, type: 3}
+  - {fileID: 6729365670997915213, guid: 9ab4a7ed564ba674cb9c2c2aeb8e9914, type: 3}
+  - {fileID: 6729365670997915213, guid: 2a339afaa150aae499c248de5aa5fb46, type: 3}
+  - {fileID: 6729365670997915213, guid: 9b46b500bfd06784fa2ff153272ea514, type: 3}
+  - {fileID: 6729365670997915213, guid: d12fe4b25a4cf4f4fb24b315b23fe808, type: 3}
   spawnPoints:
   - {fileID: 884743686}
   - {fileID: 1821878952}
   - {fileID: 1483411270}
-  nbOfEachPrefabToInstantiate: 8
+  nbOfEachPrefabToInstantiate: 1

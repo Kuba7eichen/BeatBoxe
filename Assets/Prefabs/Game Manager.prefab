@@ -48,13 +48,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 896
   head: {fileID: 0}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
   multiplierAudioSource: {fileID: 4902764913463121335}
-  database: {fileID: 11400000, guid: 2f7dd1d6ddf6d6744af8ada26d707d6b, type: 2}
+  musics:
+  - musicClip: {fileID: 8300000, guid: b89c587eed8b1134fa055f2f59a1b5bb, type: 3}
+    musicDatabase: {fileID: 11400000, guid: 2f7dd1d6ddf6d6744af8ada26d707d6b, type: 2}
+  - musicClip: {fileID: 8300000, guid: c93eb25b5ac43e94d9733ce5ec54205c, type: 3}
+    musicDatabase: {fileID: 11400000, guid: 97dea8b23c3504b4aa14a10e495f5f4d, type: 2}
+  - musicClip: {fileID: 8300000, guid: 3ffd403b83af7c843b71b803face15e6, type: 3}
+    musicDatabase: {fileID: 11400000, guid: 2f7dd1d6ddf6d6744af8ada26d707d6b, type: 2}
   spawner: {fileID: 0}
+  musicChoiceDropdown: {fileID: 0}
 --- !u!82 &6262175765389704298
 AudioSource:
   m_ObjectHideFlags: 0
@@ -65,7 +72,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b89c587eed8b1134fa055f2f59a1b5bb, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

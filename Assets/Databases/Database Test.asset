@@ -28,3 +28,7 @@ MonoBehaviour:
     Lane: 1
     prefabToSpawn: {fileID: 6729365670997915213, guid: dbe6f4eb6d3656845999b2de516cdbc1,
       type: 3}
+  - SpawnBeat: 60
+    Lane: 1
+    prefabToSpawn: {fileID: 6729365670997915213, guid: dbe6f4eb6d3656845999b2de516cdbc1,
+      type: 3}
