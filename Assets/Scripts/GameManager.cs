@@ -1,4 +1,5 @@
 using CCSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,15 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+
+
+[Serializable]
+public class Music
+{
+    public AudioClip musicClip;
+    public Database musicDatabase;
+}
+
 
 
 // The Music AudioSource must be attached to the Game Manager game object.
@@ -68,7 +78,8 @@ public class GameManager : MonoBehaviour
     private AudioSource musicAudioSource;
 
     [SerializeField] AudioSource multiplierAudioSource;
-    [SerializeField] AudioClip[] musicClips;
+    [SerializeField] Music[] musics;
+    private int actualMusicIndex = 0;
 
     private static GameManager instance;
 
@@ -84,9 +95,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-
-    [SerializeField] private Database database;
+           
     private int nextSpawnIndex = 0;
 
     [SerializeField] private Spawner spawner;
@@ -103,21 +112,41 @@ public class GameManager : MonoBehaviour
         musicAudioSource.Play();
 
         BuildMusicChoiceDropdown();
+        CheckMusicDatabase();
+    }
+
+
+
+    private void CheckMusicDatabase()
+    {        
+        for (int i = 0; i < musics.Length; i++)
+        {
+            for (int j = 0; j < musics[i].musicDatabase.ObjectSpawns.Length; j++)
+            {
+                int originalLane = musics[i].musicDatabase.ObjectSpawns[j].Lane;
+                musics[i].musicDatabase.ObjectSpawns[j].Lane = Mathf.Clamp(musics[i].musicDatabase.ObjectSpawns[j].Lane, 1, 3);
+                
+                if (originalLane != musics[i].musicDatabase.ObjectSpawns[j].Lane)
+                {
+                    Debug.Log("Vous avez oublié de définir une lane pour un objet. Il a été placé par défaut sur la lane 1.");
+                }
+            }           
+        }       
     }
 
     private void BuildMusicChoiceDropdown()
     {
         musicChoiceDropdown.ClearOptions();
 
-        // Créer une liste d'options à partir du tableau de musiques
+        // Crée une liste d'options à partir du tableau de musiques
         var options = new List<TMP_Dropdown.OptionData>();
 
-        for (int i = 0; i < musicClips.Length; i++)
+        for (int i = 0; i < musics.Length; i++)
         {
-            options.Add(new TMP_Dropdown.OptionData(musicClips[i].name));
+            options.Add(new TMP_Dropdown.OptionData(musics[i].musicClip.name));
         }
 
-        // Ajouter les options au Dropdown
+        // Ajoute les options au Dropdown
         musicChoiceDropdown.AddOptions(options);
     }
 
@@ -131,23 +160,22 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        // On se cale sur le rythme du morceau. Chaque unité de musicTime vaut non pas une seconde mais un écart entre deux beats :
+        float musicTime = musicAudioSource.time * musics[actualMusicIndex].musicDatabase.musicDatas.Bpm / 60;
+
         if (!lastObjectSpawned)
         {
-
-            if (musicAudioSource.time >= database.DatabaseEntries[nextSpawnIndex].SpawnSecond)
+            if (musicTime >= musics[actualMusicIndex].musicDatabase.ObjectSpawns[nextSpawnIndex].SpawnBeat)
             {
+                MovingElement objectToSpawn = musics[actualMusicIndex].musicDatabase.ObjectSpawns[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
 
+                spawner.SpawnObject(objectToSpawn.type, musics[actualMusicIndex].musicDatabase.ObjectSpawns[nextSpawnIndex].Lane);
 
-                MovingElement objectToSpawn = database.DatabaseEntries[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
-
-                spawner.SpawnObject(objectToSpawn.type, database.DatabaseEntries[nextSpawnIndex].Lane);
-
-                if (nextSpawnIndex < database.DatabaseEntries.Length - 1)
+                if (nextSpawnIndex < musics[actualMusicIndex].musicDatabase.ObjectSpawns.Length - 1)
                 {
                     nextSpawnIndex++;
-
                 }
-                else if (nextSpawnIndex == database.DatabaseEntries.Length - 1) lastObjectSpawned = true;
+                else if (nextSpawnIndex == musics[actualMusicIndex].musicDatabase.ObjectSpawns.Length - 1) lastObjectSpawned = true;
             }
         }
     }
@@ -193,9 +221,10 @@ public class GameManager : MonoBehaviour
 
     public void ChangeMusic(int musicIndex)
     {
-        musicIndex = Mathf.Clamp(musicIndex, 0, musicClips.Length - 1);
-        musicAudioSource.clip = musicClips[musicIndex];
-        musicAudioSource.Play();
+        musicIndex = Mathf.Clamp(musicIndex, 0, musics.Length - 1);
+        musicAudioSource.clip = musics[musicIndex].musicClip;
+        actualMusicIndex = musicIndex;
+        musicAudioSource.Play();       
     }
 
 

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad1834691b0b6b48860610d482d56db, type: 3}
+  m_Name: Database Test
+  m_EditorClassIdentifier: 
+  musicDatas:
+    Bpm: 0
+    firstBpmDelay: 0
+  ObjectSpawns:
+  - SpawnBeat: 60
+    Lane: 1
+    prefabToSpawn: {fileID: 6729365670997915213, guid: 638d3594617fe414a9d7bfb15262f377,
+      type: 3}
+  - SpawnBeat: 60
+    Lane: 1
+    prefabToSpawn: {fileID: 6729365670997915213, guid: dbe6f4eb6d3656845999b2de516cdbc1,
+      type: 3}
+  - SpawnBeat: 60
+    Lane: 1
+    prefabToSpawn: {fileID: 6729365670997915213, guid: dbe6f4eb6d3656845999b2de516cdbc1,
+      type: 3}

@@ -11,9 +11,16 @@ namespace CCSystem
     public class Database : ScriptableObject
     {
         [System.Serializable]
+        public class MusicDatas
+        {
+            public float Bpm;
+            public float firstBpmDelay;
+        }
+
+        [System.Serializable]
         public class Timestamp
         {
-            public float SpawnSecond;
+            public float SpawnBeat;
             [Range(1, 3)] public int Lane;
             public GameObject prefabToSpawn;
         }
@@ -24,7 +31,13 @@ namespace CCSystem
             public Timestamp[] SpawnEvents = new Timestamp[0];
         }
 
-        public Timestamp[] DatabaseEntries = new Timestamp[0];
+
+        public MusicDatas musicDatas = new MusicDatas();
+        public Timestamp[] ObjectSpawns = new Timestamp[0];
+
+
+
+
 
         // private Dictionary<AudioClip, Entry> spawnEventsTimeline;
 
