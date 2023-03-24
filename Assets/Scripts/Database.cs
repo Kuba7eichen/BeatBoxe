@@ -13,17 +13,18 @@ namespace CCSystem
         [System.Serializable]
         public class MusicDatas
         {
+            public bool menuMusic;
             public AudioClip audioClip;
             public float Bpm;
-            public float firstBpmDelay;            
+            public float firstBpmDelay;
         }
 
         [System.Serializable]
         public class Timestamp
         {
             public float SpawnBeat;
-            [Range(1, 3)] public int Lane;
-            public GameObject prefabToSpawn;
+            [Range(1, 3)] public int Lane;           
+            public MovingElement.ElementType elementType;
         }
 
 
