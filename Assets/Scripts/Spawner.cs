@@ -26,20 +26,17 @@ public class Spawner : MonoBehaviour
     private Stack<MovingElement> disabled_To_Parry = new Stack<MovingElement>();
 
 
-
-
-
     private void Start()
     {
         InstantiateObjectsForPool(nbOfEachPrefabToInstantiate);
     }
 
     // Initialize the pool at the beginning of the execution
-    private void InstantiateObjectsForPool(int numberOfCubes)
+    private void InstantiateObjectsForPool(int number)
     {
         for (int i = 0; i < prefabsToSpawn.Length; i++)
         {
-            for (int j = 0; j < nbOfEachPrefabToInstantiate; j++)
+            for (int j = 0; j < number; j++)
             {
                 InstantiateObject(prefabsToSpawn[i]);
             }
@@ -61,10 +58,17 @@ public class Spawner : MonoBehaviour
     // Make a Moving element object of a certain type
     private MovingElement SpawnFromStack(Stack<MovingElement> Stack)
     {
+        if (Stack.Count == 0)
+        {
+            Debug.Log("Stack empty. New object instantiated.");
+            InstantiateObject(EnumToGameObject(StackToEnum(Stack)));
+        }
+
         MovingElement objectToSpawn = Stack.Pop();
         objectToSpawn.gameObject.SetActive(true);
         return objectToSpawn;
     }
+
 
 
     // Returns the stack corresponding to the type of the MovingElement object
@@ -99,5 +103,36 @@ public class Spawner : MonoBehaviour
         MovingElement objectToSpawn = SpawnFromStack(EnumToStack(type));
         objectToSpawn.transform.position = spawnPoints[lane - 1].position;
         return objectToSpawn;
+    }
+
+
+
+
+    // Used to instantiate an object during the game, if the stack is empty.
+    private ElementType StackToEnum(Stack<MovingElement> stack)
+    {
+        if (stack == disabled_Jab_Right) return ElementType.RIGHTJAB;
+        else if (stack == disabled_Jab_Left) return ElementType.LEFTJAB;
+        else if (stack == disabled_Uppercut_Right) return ElementType.RIGHTUPPERCUT;
+        else if (stack == disabled_Uppercut_Left) return ElementType.LEFTUPPERCUT;
+        else if (stack == disabled_Hook_Right) return ElementType.RIGHTHOOK;
+        else if (stack == disabled_Hook_Left) return ElementType.LEFTHOOK;
+        else if (stack == disabled_To_Dogde) return ElementType.TODODGE;
+        else return ElementType.TOPARRY;
+    }
+
+    // Used to instantiate an object during the game, if the stack is empty.
+    private GameObject EnumToGameObject(ElementType elementType)
+    {
+        GameObject objToReturn = null;
+        for (int i = 0; i < prefabsToSpawn.Length; i++)
+        {
+            if (prefabsToSpawn[i].GetComponent<MovingElement>().type == elementType)
+            {
+                objToReturn = prefabsToSpawn[i];
+                break;
+            }
+        }
+        return objToReturn;
     }
 }

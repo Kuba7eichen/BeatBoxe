@@ -40,12 +40,12 @@ public class HittableElement : MovingElement
     {
         switch (type)
         {
-            case ElementType.LEFTHOOK: return other.gameObject.layer == 4; //LeftHandLayer
-            case ElementType.RIGHTHOOK: return other.gameObject.layer == 5; //RightHandLayer
-            case ElementType.LEFTJAB: return other.gameObject.layer == 4; //LeftHandLayer
-            case ElementType.RIGHTJAB: return other.gameObject.layer == 5; //RightHandLayer
-            case ElementType.LEFTUPPERCUT: return other.gameObject.layer == 4; //LeftHandLayer
-            case ElementType.RIGHTUPPERCUT: return other.gameObject.layer == 5; //RightHandLayer
+            case ElementType.LEFTHOOK: return other.gameObject.layer == 8; //LeftHandLayer
+            case ElementType.RIGHTHOOK: return other.gameObject.layer == 9; //RightHandLayer
+            case ElementType.LEFTJAB: return other.gameObject.layer == 8; //LeftHandLayer
+            case ElementType.RIGHTJAB: return other.gameObject.layer == 9; //RightHandLayer
+            case ElementType.LEFTUPPERCUT: return other.gameObject.layer == 8; //LeftHandLayer
+            case ElementType.RIGHTUPPERCUT: return other.gameObject.layer == 9; //RightHandLayer
             default:
                 Debug.LogError("No index associated to type or not a hittable type");
                 return false;

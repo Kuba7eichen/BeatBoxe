@@ -18,16 +18,18 @@ public class CountDownBeforeMusic : MonoBehaviour
 
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip countAudioClip;
+   
 
     public void LetsGo()
     {
+        GameManager.Instance.musicAudioSource.Stop();        
         repeatCount = 0;
         countDownText.gameObject.SetActive(true);
         StartCoroutine(Repeating());
         menuBackgroundImage.gameObject.SetActive(false);
     }
 
-    IEnumerator Repeating()
+    private IEnumerator Repeating()
     {
         countDownText.text = (startNumber - repeatCount).ToString();
         if (audioSource != null && countAudioClip != null) { audioSource.PlayOneShot(countAudioClip); }

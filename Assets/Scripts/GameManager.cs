@@ -1,53 +1,46 @@
 using CCSystem;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 // The Music AudioSource must be attached to the Game Manager game object.
 
+[RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
-    public bool isPaused { get; private set; }
-
 
     private int score = 0;
     public int Score
-    {
-        get { return score; }
-    }
+    { get { return score; } }
 
 
     private int multiplier = 2;
     public int Multiplier
-    {
-        get { return multiplier; }
-    }
+    { get { return multiplier; } }
 
 
     private int lowMultiplierCount = 0;
     public int LowMultiplierCount
-    {
-        get { return lowMultiplierCount; }
-    }
+    { get { return lowMultiplierCount; } }
 
 
     private bool gameOver = false;
     public bool GameOver
-    {
-        get { return gameOver; }
-    }
+    { get { return gameOver; } }
 
 
-    private bool gamePaused = false;
+    private bool gamePaused = true;
     public bool GamePaused
-    {
-        get { return gamePaused; }
-    }
+    { get { return gamePaused; } }
 
 
-
+    [SerializeField] AnimationOnBPM[] animationOnBPMObject;
 
     [SerializeField] private LayerMask playerMask;
     public LayerMask PlayerMask { get { return playerMask; } }
@@ -62,9 +55,17 @@ public class GameManager : MonoBehaviour
     public Transform RightHand { get { return rightHand; } }
 
 
-    private AudioSource musicAudioSource;
+    [HideInInspector] public AudioSource musicAudioSource;
 
-    [SerializeField] AudioSource multiplierAudioSource;
+    [SerializeField] private AudioSource multiplierAudioSource;
+    [SerializeField] private Database[] musics;
+    public Database[] Musics
+    { get { return musics; } }
+
+    private int actualMusicIndex = 0;
+    public int ActualMusicIndex
+    { get { return actualMusicIndex; } }
+
 
     private static GameManager instance;
 
@@ -81,24 +82,48 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    [SerializeField] private Database database;
     private int nextSpawnIndex = 0;
-    
+
     [SerializeField] private Spawner spawner;
 
+    private bool lastObjectSpawned = false;
 
 
+    [SerializeField] TMP_Dropdown musicChoiceDropdown;
 
-    // DEBUG : LANCEMENT DE LA MUSIQUE AU CHARGEMENT POUR TESTER LE SPAWN
+
     private void Start()
     {
+
+#if UNITY_EDITOR
+        CheckMusicDatabases();
+#endif
+
+
         musicAudioSource.Play();
+
+
+        BuildMusicChoiceDropdown();
+        SetAnimatedObjectsBPM();
     }
 
 
 
+    private void BuildMusicChoiceDropdown()
+    {
+        musicChoiceDropdown.ClearOptions();
 
+        // Crée une liste d'options à partir du tableau de musiques.
+        var options = new List<TMP_Dropdown.OptionData>();
+
+        for (int i = 0; i < musics.Length; i++)
+        {
+            options.Add(new TMP_Dropdown.OptionData(musics[i].musicDatas.audioClip.name));
+        }
+
+        // Ajoute les options au Dropdown.
+        musicChoiceDropdown.AddOptions(options);
+    }
 
 
     private void Awake()
@@ -110,15 +135,23 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (musicAudioSource.time >= database.DatabaseEntries[nextSpawnIndex].SpawnSecond)
-        {
-            MovingElement objectToSpawn = database.DatabaseEntries[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
+        // On se cale sur le rythme du morceau. Chaque unité de musicTime vaut non pas une seconde mais un écart entre deux beats.
+        // Et tient compte du délai initial, pour que les spawns se calent bien sur les beats de la musique :
+        float musicTime = (musicAudioSource.time * musics[actualMusicIndex].musicDatas.Bpm / 60) - musics[actualMusicIndex].musicDatas.firstBpmDelay;
 
-            spawner.SpawnObject(objectToSpawn.type, database.DatabaseEntries[nextSpawnIndex].Lane);
-            
-            if (nextSpawnIndex < database.DatabaseEntries.Length - 1)
+        if (!lastObjectSpawned && !gamePaused)
+        {
+            if (musics[actualMusicIndex].ObjectSpawns.Length > 0 && musicTime >= musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].SpawnBeat)
             {
-                nextSpawnIndex++;
+                MovingElement objectToSpawn = musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].prefabToSpawn.GetComponent<MovingElement>();
+
+                spawner.SpawnObject(objectToSpawn.type, musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].Lane);
+
+                if (nextSpawnIndex < musics[actualMusicIndex].ObjectSpawns.Length - 1)
+                {
+                    nextSpawnIndex++;
+                }
+                else if (nextSpawnIndex == musics[actualMusicIndex].ObjectSpawns.Length - 1) lastObjectSpawned = true;
             }
         }
     }
@@ -155,6 +188,10 @@ public class GameManager : MonoBehaviour
     {
         gamePaused = !gamePaused;
 
+        if (musicAudioSource.clip != musics[actualMusicIndex].musicDatas.audioClip)        
+            musicAudioSource.clip = musics[actualMusicIndex].musicDatas.audioClip;
+        
+
         if (gamePaused) { musicAudioSource?.Pause(); }
         else { musicAudioSource?.Play(); }
 
@@ -162,4 +199,67 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void ChangeMusic(int musicIndex)
+    {
+        musicIndex = Mathf.Clamp(musicIndex, 0, musics.Length - 1);
+        musicAudioSource.clip = musics[musicIndex].musicDatas.audioClip;
+        actualMusicIndex = musicIndex;
+        musicAudioSource.Play();
+        SetAnimatedObjectsBPM();
+    }
+
+
+
+    private void SetAnimatedObjectsBPM()
+    {
+        for (int i = 0; i < animationOnBPMObject.Length; i++)
+        {
+            animationOnBPMObject[i].SetAnimatorBPM(musics[actualMusicIndex].musicDatas.Bpm,
+                                                   musics[actualMusicIndex].musicDatas.firstBpmDelay);
+        }
+    }
+
+
+
+    private void CheckMusicDatabases()
+    {
+        for (int i = 0; i < musics.Length; i++)
+        {
+            if (musics[i].musicDatas.Bpm == 0)
+            {
+                Debug.LogError("Le BPM de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas été renseigné !");
+            }
+
+            for (int j = 0; j < musics[i].ObjectSpawns.Length; j++)
+            {
+                if (j > 0 && musics[i].ObjectSpawns[j].SpawnBeat < musics[i].ObjectSpawns[j - 1].SpawnBeat)
+                {
+                    Debug.LogError("L'objet " + j + " de la musique " + musics[i].musicDatas.audioClip.name + " a un spawn beat inférieur à l'objet qui le précède dans leur base de données. Les deux objets doivent être intervertis.");
+                }
+
+                int originalLane = musics[i].ObjectSpawns[j].Lane;
+                musics[i].ObjectSpawns[j].Lane = Mathf.Clamp(musics[i].ObjectSpawns[j].Lane, 1, 3);
+
+                if (originalLane != musics[i].ObjectSpawns[j].Lane)
+                {
+                    Debug.Log("L'objet numero " + j + " de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas de piste assignée. Il a été placé par défaut sur la piste 1.");
+                }
+            }
+        }
+    }
+
+
+
+
+    public void QuitGame()
+    {
+        // save any game data here
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor so
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+             Application.Quit();
+#endif
+    }
 }
