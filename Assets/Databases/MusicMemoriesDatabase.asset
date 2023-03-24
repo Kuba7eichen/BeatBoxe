@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicDatas:
     audioClip: {fileID: 8300000, guid: c93eb25b5ac43e94d9733ce5ec54205c, type: 3}
-    Bpm: 96
+    Bpm: 0
     firstBpmDelay: 0
   ObjectSpawns: []

@@ -96,35 +96,23 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TMP_Dropdown musicChoiceDropdown;
 
-
-    // DEBUG : LANCEMENT DE LA MUSIQUE AU CHARGEMENT POUR TESTER LE SPAWN
+        
     private void Start()
-    {
+    {        
+
+#if UNITY_EDITOR
+        CheckMusicDatabases();
+#endif
+
+        // LANCEMENT DE LA MUSIQUE AU DEMARRAGE POUR DEBUG:
         musicAudioSource.Play();
 
+
         BuildMusicChoiceDropdown();
-        CheckMusicDatabases();
         SetAnimatedObjectsBPM();
     }
 
-    
 
-    private void CheckMusicDatabases()
-    {
-        for (int i = 0; i < musics.Length; i++)
-        {
-            for (int j = 0; j < musics[i].ObjectSpawns.Length; j++)
-            {
-                int originalLane = musics[i].ObjectSpawns[j].Lane;
-                musics[i].ObjectSpawns[j].Lane = Mathf.Clamp(musics[i].ObjectSpawns[j].Lane, 1, 3);
-
-                if (originalLane != musics[i].ObjectSpawns[j].Lane)
-                {
-                    Debug.Log("Un objet à spawner n'a pas de lane assignée. Il a été placé par défaut sur la lane 1.");
-                }
-            }
-        }
-    }
 
     private void BuildMusicChoiceDropdown()
     {
@@ -231,6 +219,37 @@ public class GameManager : MonoBehaviour
                                                    musics[actualMusicIndex].musicDatas.firstBpmDelay);
         }
     }
+
+
+
+    private void CheckMusicDatabases()
+    {
+        for (int i = 0; i < musics.Length; i++)
+        {
+            if (musics[i].musicDatas.Bpm == 0)
+            {
+                Debug.LogError("Le BPM de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas été renseigné !");
+            }
+
+            for (int j = 0; j < musics[i].ObjectSpawns.Length; j++)
+            {
+                if (j > 0 && musics[i].ObjectSpawns[j].SpawnBeat < musics[i].ObjectSpawns[j - 1].SpawnBeat)
+                {
+                    Debug.LogError("L'objet " + j + " de la musique " + musics[i].musicDatas.audioClip.name + " a un spawn beat inférieur à l'objet qui le précède dans leur base de données. Les deux objets doivent être intervertis.");
+                }
+
+                int originalLane = musics[i].ObjectSpawns[j].Lane;
+                musics[i].ObjectSpawns[j].Lane = Mathf.Clamp(musics[i].ObjectSpawns[j].Lane, 1, 3);
+
+                if (originalLane != musics[i].ObjectSpawns[j].Lane)
+                {
+                    Debug.Log("L'objet numero " + j + " de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas de piste assignée. Il a été placé par défaut sur la piste 1.");
+                }
+            }
+        }
+    }
+
+
 
 
     public void QuitGame()
