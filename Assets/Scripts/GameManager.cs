@@ -6,6 +6,7 @@ using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 
@@ -90,6 +91,9 @@ public class GameManager : MonoBehaviour
     
     [SerializeField] TMP_Dropdown musicChoiceDropdown;
 
+    public UnityEvent beat;
+    private int nextBeat = 0;
+
 
     private void Start()
     {
@@ -149,6 +153,12 @@ public class GameManager : MonoBehaviour
         // On se cale sur le rythme du morceau. Chaque unité de musicTime vaut non pas une seconde mais un écart entre deux beats.
         // Et on tient compte du délai initial, pour que les spawns se calent bien sur les beats de la musique :
         float musicTime = (musicAudioSource.time * musics[actualMusicIndex].musicDatas.Bpm / 60) - musics[actualMusicIndex].musicDatas.firstBpmDelay;
+
+        if (musicTime >= nextBeat)
+        {
+            nextBeat++;
+            beat.Invoke();
+        }
 
         if (!lastObjectSpawned && !gamePaused && !GameOver)
         {

@@ -6,15 +6,27 @@ using UnityEngine;
 public class AnimationOnBPM : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-
-    [SerializeField] float timeOffset = 0;
-
+   
     private float musicDelay = 0;
 
     private float BPM = 0;
 
     private bool musicBegun = false;
 
+    private void OnEnable()
+    {
+        GameManager.Instance.beat.AddListener(ResetAnim);
+    }
+    private void OnDisable()
+    {
+        if (GameManager.Instance.beat != null)
+        GameManager.Instance.beat.RemoveListener(ResetAnim);
+    }
+
+    private void ResetAnim()
+    {
+        animator.SetTrigger("ResetAnim");
+    }
 
     void Update()
     {
@@ -30,15 +42,15 @@ public class AnimationOnBPM : MonoBehaviour
             }
             else
             {
-                StartCoroutine(ApplyTimeOffset());
+                StartCoroutine(ApplyMusicDelay());
             }
         }
     }
 
 
-    IEnumerator ApplyTimeOffset()
+    IEnumerator ApplyMusicDelay()
     {
-        yield return new WaitForSeconds(timeOffset + musicDelay);
+        yield return new WaitForSeconds(musicDelay);
         animator.speed = BPM;
         musicBegun = true;
     }
@@ -48,8 +60,8 @@ public class AnimationOnBPM : MonoBehaviour
     public void SetAnimatorBPM(float bpm, float delay)
     {
         BPM = bpm / 60;
-        animator.speed = BPM;
-        musicBegun = false;
+        animator.speed = BPM;        
         musicDelay = delay;
+        musicBegun = false;
     }
 }
