@@ -25,20 +25,21 @@ public abstract class MovingElement : MonoBehaviour
 
 
     // Start is called before the first frame update
-    protected void Start()
+    protected virtual void Start()
     {
         _gameManager = GameManager.Instance;
         playerMask = _gameManager.PlayerMask;
     }
 
     // Update is called once per frame
-    protected void Update()
+    protected virtual void Update()
     {
         transform.position += (speed * Time.deltaTime) * Vector3.back;
     }
 
-    protected void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
+        //print("entered a trigger: " + other);
         if(other.CompareTag("Bounds"))
         {
             gameObject.SetActive(false);

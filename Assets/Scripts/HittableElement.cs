@@ -4,35 +4,45 @@ using UnityEngine;
 
 public class HittableElement : MovingElement
 {
-    private bool isAttackCorrect = false;
 
     // Start is called before the first frame update
-    new void Start()
+    protected override void Start()
     {
         base.Start();
     }
 
     // Update is called once per frame
-    new void Update()
+    protected override void Update()
     {
         base.Update();
     }
 
-    new private void OnTriggerEnter(Collider other)
+    protected override void OnTriggerEnter(Collider other)
     {
+        //print("entered a collision: " + other);
         base.OnTriggerEnter(other);
+        if ((playerMask.value & (1 << other.transform.gameObject.layer)) > 0) // check if collision with player
+        {
+            if (CheckedAttackDirection(other, ElementTypeToPositionIndex(type)) && CheckedAttackHand(other)) // attack is correct only if the correct hand was used AND the correct type of attack was performed
+            {
+                Debug.Log("Good attack type detected");
+                //_gameManager.UpdateScore(CalculateScore(other));
+                _gameManager.UpdateMultiplier(1);
+            }
+            else
+            {
+                Debug.Log("Attack detected, but not the right one");
 
-        isAttackCorrect = CheckedAttackDirection(other, ElementTypeToPositionIndex(type)) && CheckedAttackHand(other);   // attack is correct only if the correct hand was used AND the correct type of attack was performed   
-        
-        _gameManager.
+            }
+        }
         gameObject.SetActive(false);
 
     }
     //Checks from which side the attack came, thus telling weather it was the correct attack
     private bool CheckedAttackDirection(Collider other, int positionToCheckIndex)
     {
-        return (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) > Mathf.Abs(other.transform.position[(positionToCheckIndex + 1) / 3] - transform.position[(positionToCheckIndex + 1) / 3])
-                && Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) > Mathf.Abs(other.transform.position[(positionToCheckIndex - 1) / 3] - transform.position[(positionToCheckIndex - 1) / 3]));
+        return (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) > Mathf.Abs(other.transform.position[(positionToCheckIndex + 1) % 3] - transform.position[(positionToCheckIndex + 1) % 3])
+                && Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) > Mathf.Abs(other.transform.position[(positionToCheckIndex + 2) % 3] - transform.position[(positionToCheckIndex + 2) % 3]));
     }
 
     //Checks if the correct hand was used to attack the target
