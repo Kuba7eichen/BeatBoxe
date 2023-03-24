@@ -18,9 +18,11 @@ public class CountDownBeforeMusic : MonoBehaviour
 
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip countAudioClip;
+   
 
     public void LetsGo()
     {
+        GameManager.Instance.musicAudioSource.Stop();        
         repeatCount = 0;
         countDownText.gameObject.SetActive(true);
         StartCoroutine(Repeating());

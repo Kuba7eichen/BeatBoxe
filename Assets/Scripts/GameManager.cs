@@ -11,44 +11,33 @@ using UnityEngine.UI;
 
 // The Music AudioSource must be attached to the Game Manager game object.
 
+[RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
-    public bool isPaused { get; private set; }
-
 
     private int score = 0;
     public int Score
-    {
-        get { return score; }
-    }
+    { get { return score; } }
 
 
     private int multiplier = 2;
     public int Multiplier
-    {
-        get { return multiplier; }
-    }
+    { get { return multiplier; } }
 
 
     private int lowMultiplierCount = 0;
     public int LowMultiplierCount
-    {
-        get { return lowMultiplierCount; }
-    }
+    { get { return lowMultiplierCount; } }
 
 
     private bool gameOver = false;
     public bool GameOver
-    {
-        get { return gameOver; }
-    }
+    { get { return gameOver; } }
 
 
-    private bool gamePaused = false;
+    private bool gamePaused = true;
     public bool GamePaused
-    {
-        get { return gamePaused; }
-    }
+    { get { return gamePaused; } }
 
 
     [SerializeField] AnimationOnBPM[] animationOnBPMObject;
@@ -66,11 +55,17 @@ public class GameManager : MonoBehaviour
     public Transform RightHand { get { return rightHand; } }
 
 
-    private AudioSource musicAudioSource;
+    [HideInInspector] public AudioSource musicAudioSource;
 
-    [SerializeField] AudioSource multiplierAudioSource;
-    [SerializeField] Database[] musics;
+    [SerializeField] private AudioSource multiplierAudioSource;
+    [SerializeField] private Database[] musics;
+    public Database[] Musics
+    { get { return musics; } }
+
     private int actualMusicIndex = 0;
+    public int ActualMusicIndex
+    { get { return actualMusicIndex; } }
+
 
     private static GameManager instance;
 
@@ -96,15 +91,15 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TMP_Dropdown musicChoiceDropdown;
 
-        
+
     private void Start()
-    {        
+    {
 
 #if UNITY_EDITOR
         CheckMusicDatabases();
 #endif
 
-        // LANCEMENT DE LA MUSIQUE AU DEMARRAGE POUR DEBUG:
+
         musicAudioSource.Play();
 
 
@@ -118,7 +113,7 @@ public class GameManager : MonoBehaviour
     {
         musicChoiceDropdown.ClearOptions();
 
-        // Crée une liste d'options à partir du tableau de musiques
+        // Crée une liste d'options à partir du tableau de musiques.
         var options = new List<TMP_Dropdown.OptionData>();
 
         for (int i = 0; i < musics.Length; i++)
@@ -126,7 +121,7 @@ public class GameManager : MonoBehaviour
             options.Add(new TMP_Dropdown.OptionData(musics[i].musicDatas.audioClip.name));
         }
 
-        // Ajoute les options au Dropdown
+        // Ajoute les options au Dropdown.
         musicChoiceDropdown.AddOptions(options);
     }
 
@@ -144,7 +139,7 @@ public class GameManager : MonoBehaviour
         // Et tient compte du délai initial, pour que les spawns se calent bien sur les beats de la musique :
         float musicTime = (musicAudioSource.time * musics[actualMusicIndex].musicDatas.Bpm / 60) - musics[actualMusicIndex].musicDatas.firstBpmDelay;
 
-        if (!lastObjectSpawned)
+        if (!lastObjectSpawned && !gamePaused)
         {
             if (musics[actualMusicIndex].ObjectSpawns.Length > 0 && musicTime >= musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].SpawnBeat)
             {
@@ -192,6 +187,10 @@ public class GameManager : MonoBehaviour
     public bool TogglePause()
     {
         gamePaused = !gamePaused;
+
+        if (musicAudioSource.clip != musics[actualMusicIndex].musicDatas.audioClip)        
+            musicAudioSource.clip = musics[actualMusicIndex].musicDatas.audioClip;
+        
 
         if (gamePaused) { musicAudioSource?.Pause(); }
         else { musicAudioSource?.Play(); }
