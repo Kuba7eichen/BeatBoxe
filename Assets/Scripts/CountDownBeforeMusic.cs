@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CountDownBeforeMusic : MonoBehaviour
 {
-    //  [SerializeField] private float startDelay = 0;
     [SerializeField] private float delay = 1;
     [SerializeField] private int startNumber = 3;
 
-    [SerializeField] private GameObject menuBackgroundImage;  
+    [SerializeField] private GameObject menuBackgroundImage;
     [SerializeField] private TextMeshProUGUI countDownText;
 
     private int repeatCount = 0;
@@ -20,9 +20,12 @@ public class CountDownBeforeMusic : MonoBehaviour
     [SerializeField] private AudioClip countAudioClip;
    
 
+    public UnityEvent OnResumeMusic;
+
+   
     public void LetsGo()
     {
-        GameManager.Instance.musicAudioSource.Stop();        
+        GameManager.Instance.musicAudioSource.Stop();
         repeatCount = 0;
         countDownText.gameObject.SetActive(true);
         StartCoroutine(Repeating());
@@ -41,12 +44,12 @@ public class CountDownBeforeMusic : MonoBehaviour
         }
         else
         {
-            countDownText.text = "";            
-            countDownText.gameObject.SetActive(false);          
-         
+            countDownText.text = "";
+            countDownText.gameObject.SetActive(false);
+            
+            OnResumeMusic.Invoke();
+
             GameManager.Instance.TogglePause();
-
         }
-
     }
 }

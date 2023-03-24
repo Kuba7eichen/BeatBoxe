@@ -2,19 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
+
 public class AnimationOnBPM : MonoBehaviour
 {
-    private Animator animator;
+    [SerializeField] private Animator animator;
 
     [SerializeField] float timeOffset = 0;
 
+    private float musicDelay = 0;
+
     private float BPM = 0;
 
-    private void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
+    private bool musicBegun = false;
+
 
     void Update()
     {
@@ -24,21 +24,32 @@ public class AnimationOnBPM : MonoBehaviour
         }
         else
         {
-            animator.speed = BPM;
+            if (musicBegun) // Si la musique a déjà commencé (càd si on sort du menu pause, et non pas du main menu), pas besoin d'appliquer à nouveau le time offset.
+            {
+                animator.speed = BPM;
+            }
+            else
+            {
+                StartCoroutine(ApplyTimeOffset());
+            }
         }
     }
 
 
-    public void SetAnimatorBPM(float bpm, float initialDelay)
+    IEnumerator ApplyTimeOffset()
     {
-        StartCoroutine(ApplyInitialDelay(bpm, initialDelay));
+        yield return new WaitForSeconds(timeOffset + musicDelay);
+        animator.speed = BPM;
+        musicBegun = true;
     }
 
-    private IEnumerator ApplyInitialDelay(float bpm, float initialDelay)
+
+
+    public void SetAnimatorBPM(float bpm, float delay)
     {
-        animator.speed = 0;
-        yield return new WaitForSeconds(initialDelay + timeOffset);
         BPM = bpm / 60;
         animator.speed = BPM;
+        musicBegun = false;
+        musicDelay = delay;
     }
 }
