@@ -20,10 +20,15 @@ public abstract class MovingElement : MonoBehaviour
 
     [SerializeField] public ElementType type;
 
+    protected GameManager _gameManager;
+    protected LayerMask playerMask;
+
+
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
-        
+        _gameManager = GameManager.Instance;
+        playerMask = _gameManager.PlayerMask;
     }
 
     // Update is called once per frame

@@ -7,9 +7,9 @@ public class HittableElement : MovingElement
     private bool isAttackCorrect = false;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        
+        base.Start();
     }
 
     // Update is called once per frame
@@ -22,8 +22,11 @@ public class HittableElement : MovingElement
     {
         base.OnTriggerEnter(other);
 
-        isAttackCorrect = CheckedAttackDirection(other, ElementTypeToPositionIndex(type)) && CheckedAttackHand(other);        // attack is correct only if the correct hand was used AND the correct type of attack was performed   
-           
+        isAttackCorrect = CheckedAttackDirection(other, ElementTypeToPositionIndex(type)) && CheckedAttackHand(other);   // attack is correct only if the correct hand was used AND the correct type of attack was performed   
+        
+        _gameManager.
+        gameObject.SetActive(false);
+
     }
     //Checks from which side the attack came, thus telling weather it was the correct attack
     private bool CheckedAttackDirection(Collider other, int positionToCheckIndex)

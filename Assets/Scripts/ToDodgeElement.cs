@@ -5,30 +5,27 @@ using UnityEngine;
 public class ToDodgeElement : MovingElement
 {
 
-    private GameManager _gameManager;
     private float _maxBlockingAngle;
     private float _maxBlockingDistance;
 
-    private LayerMask layerMask;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        _gameManager = GameManager.Instance;
-        layerMask = _gameManager.PlayerMask;
+        base.Start();
     }
 
     // Update is called once per frame
-    void Update()
+    new void Update()
     {
-
+        base.Update();
     }
 
     new private void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
 
-        if ((layerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        if ((playerMask.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Hit with Layermask");
         }
