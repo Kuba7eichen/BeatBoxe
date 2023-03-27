@@ -9,7 +9,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-
 // The Music AudioSource must be attached to the Game Manager game object.
 
 [RequireComponent(typeof(AudioSource))]
@@ -52,10 +51,15 @@ public class GameManager : MonoBehaviour
 
 
     [HideInInspector] public AudioSource musicAudioSource;
-
-    [SerializeField] private AudioSource multiplierAudioSource;  
+    [SerializeField] private AudioSource multiplierAudioSource;
     [SerializeField] private AudioSource perfectAudioSource;
     [SerializeField] private CanvasGroup perfectCanvasGroup;
+    [Space(10)]
+    [SerializeField] private Image endGameBackgroundImage;
+    [SerializeField] private TextMeshProUGUI endGameText;
+    [SerializeField] private TextMeshProUGUI endGameScoreText;
+    [Space(10)]
+    [SerializeField] private Image pauseMenuBackgroundImage;
 
     [SerializeField] private Database[] musics;
     public Database[] Musics { get { return musics; } }
@@ -87,8 +91,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TMP_Dropdown musicChoiceDropdown;
 
-    [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] TextMeshProUGUI comboText;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI comboText;
+
+    [SerializeField] private Image scoreBackgroundImage;
 
 
     public UnityEvent OnBeat;
@@ -116,6 +122,7 @@ public class GameManager : MonoBehaviour
             if (musics[i].musicDatas.menuMusic)
             {
                 musicAudioSource.clip = musics[i].musicDatas.audioClip;
+                musicAudioSource.Play();
                 return;
             }
         }
@@ -127,16 +134,16 @@ public class GameManager : MonoBehaviour
     {
         musicChoiceDropdown.ClearOptions();
 
-        // Crée une liste d'options à partir du tableau de musiques.
+        // On crée une liste d'options à partir du tableau de musiques.
         var options = new List<TMP_Dropdown.OptionData>();
 
         for (int i = 0; i < musics.Length; i++)
         {
-            if (!musics[i].musicDatas.menuMusic)
+            if (!musics[i].musicDatas.menuMusic)    // (On n'ajoute la musique au dropdown que si ce n'est pas une musique de menu.)
                 options.Add(new TMP_Dropdown.OptionData(musics[i].musicDatas.audioClip.name));
         }
 
-        // Ajoute les options au Dropdown.
+        // On ajoute les options au Dropdown.
         musicChoiceDropdown.AddOptions(options);
     }
 
@@ -152,7 +159,8 @@ public class GameManager : MonoBehaviour
     {
         // On se cale sur le rythme du morceau. Chaque unité de musicTime vaut non pas une seconde mais un écart entre deux beats.
         // Et on tient compte du délai initial, pour que les spawns se calent bien sur les beats de la musique :
-        float musicTime = (musicAudioSource.time * musics[actualMusicIndex].musicDatas.Bpm / 60) - musics[actualMusicIndex].musicDatas.firstBpmDelay;
+        float musicTime = (musicAudioSource.time * musics[actualMusicIndex].musicDatas.Bpm / 60)
+                          - musics[actualMusicIndex].musicDatas.firstBpmDelay;
 
         if (musicTime >= nextBeat)
         {
@@ -162,10 +170,12 @@ public class GameManager : MonoBehaviour
 
         if (!lastObjectSpawned && !gamePaused && !GameOver)
         {
-            if (musics[actualMusicIndex].ObjectSpawns.Length > 0 && musicTime >= musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].SpawnBeat)
+            if (musics[actualMusicIndex].ObjectSpawns.Length > 0 &&
+                musicTime >= musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].SpawnBeat)
             {
-                print(musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].elementType);
-                spawner.SpawnObject(musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].elementType, musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].Lane);
+
+                spawner.SpawnObject(musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].elementType,
+                                    musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].Lane);
 
                 if (nextSpawnIndex < musics[actualMusicIndex].ObjectSpawns.Length - 1)
                 {
@@ -176,6 +186,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RestartGame()
+    {
+        score = 0;
+        multiplier = 2;
+        gamePaused = true;
+        musicAudioSource.Stop();
+        FindAndStartMenuMusic();
+        SetAnimatedObjectsBPM();
+    }
+
+
 
     public void UpdateMultiplier(int pointsToAdd)
     {
@@ -185,17 +206,22 @@ public class GameManager : MonoBehaviour
         comboText.text = "X" + multiplier;
 
         if (multiplier == 1)
-        {           
+        {
             lowMultiplierCount++;
         }
         else
         {
-            lowMultiplierCount = 0;            
+            lowMultiplierCount = 0;
         }
 
         if (lowMultiplierCount >= 5)
         {
             gameOver = true;
+
+            endGameBackgroundImage.gameObject.SetActive(gameOver);
+            endGameText.text = "KO!";
+            endGameScoreText.text = "You score: " + score;
+
         }
     }
 
@@ -217,7 +243,7 @@ public class GameManager : MonoBehaviour
         if (isPerfect)
         {
             perfectAudioSource.Play();
-            StartCoroutine(PerfectCanvasGroupFadeOut(2));            
+            StartCoroutine(PerfectCanvasGroupFadeOut(1.5f));
         }
     }
 
@@ -236,12 +262,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
-  
-    public bool TogglePause()
+
+    public void TogglePause()
     {
         gamePaused = !gamePaused;
+        ApplyPause();
+    }
 
-        if (gamePaused) { musicAudioSource?.Pause(); }
+    public void PauseGame(bool pause)
+    {
+        gamePaused = pause;        
+        ApplyPause();
+    }
+
+    private void ApplyPause()
+    {
+        scoreBackgroundImage.gameObject.SetActive(!gamePaused);
+
+        if (gamePaused)
+        {
+            musicAudioSource?.Pause();
+        }
         else
         {
             if (musicAudioSource.clip != musics[actualMusicIndex].musicDatas.audioClip)
@@ -249,9 +290,8 @@ public class GameManager : MonoBehaviour
 
             musicAudioSource?.Play();
         }
-
-        return gamePaused;
     }
+
 
 
     public void ChangeMusic(int musicIndex)
@@ -271,11 +311,11 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < animationOnBPMObject.Length; i++)
             {
-                animationOnBPMObject[i].SetAnimatorBPM(musics[actualMusicIndex].musicDatas.Bpm, musics[actualMusicIndex].musicDatas.firstBpmDelay);
+                animationOnBPMObject[i].SetAnimatorBPM(musics[actualMusicIndex].musicDatas.Bpm,
+                                                       musics[actualMusicIndex].musicDatas.firstBpmDelay);
             }
         }
     }
-
 
 
     private void CheckMusicDatabases()
@@ -293,7 +333,9 @@ public class GameManager : MonoBehaviour
                 {
                     if (j > 0 && musics[i].ObjectSpawns[j].SpawnBeat < musics[i].ObjectSpawns[j - 1].SpawnBeat)
                     {
-                        Debug.LogError("L'objet " + j + " de la musique " + musics[i].musicDatas.audioClip.name + " a un spawn beat inférieur à l'objet qui le précède dans leur base de données. Les deux objets doivent être intervertis.");
+                        Debug.LogError("L'objet " + j + " de la musique " + musics[i].musicDatas.audioClip.name +
+                                       " a un spawn beat inférieur à l'objet qui le précède dans leur base de données." +
+                                       "Les deux objets doivent être intervertis.");
                     }
 
                     int originalLane = musics[i].ObjectSpawns[j].Lane;
@@ -301,14 +343,13 @@ public class GameManager : MonoBehaviour
 
                     if (originalLane != musics[i].ObjectSpawns[j].Lane)
                     {
-                        Debug.Log("L'objet numero " + j + " de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas de piste assignée. Il a été placé par défaut sur la piste 1.");
+                        Debug.Log("L'objet numero " + j + " de la musique " + musics[i].musicDatas.audioClip.name +
+                                  " n'a pas de piste assignée. Il a été placé par défaut sur la piste 1.");
                     }
                 }
             }
         }
     }
-
-
 
 
     public void QuitGame()

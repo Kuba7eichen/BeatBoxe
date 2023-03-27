@@ -306,6 +306,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 68572029}
+--- !u!114 &197096212 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1963666878, guid: 61e44318fefd25b4190418cb5ac00175,
+    type: 3}
+  m_PrefabInstance: {fileID: 2286592434574338164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &242025997 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 4455714411004274828, guid: 923c69e341f44c043a00d2f9c56babea,
@@ -740,6 +752,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c25e0bf26b4ed43b474bbf701b5979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1062541913 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1389418375, guid: 61e44318fefd25b4190418cb5ac00175,
+    type: 3}
+  m_PrefabInstance: {fileID: 2286592434574338164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1154825371 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4080308756367644344, guid: 61e44318fefd25b4190418cb5ac00175,
@@ -848,6 +872,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1415710984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2286592433754147775, guid: 61e44318fefd25b4190418cb5ac00175,
+    type: 3}
+  m_PrefabInstance: {fileID: 2286592434574338164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1416521217
@@ -2230,6 +2266,18 @@ MonoBehaviour:
     m_Reference: {fileID: 875253871413052681, guid: c348712bda248c246b8c49b3db54643f,
       type: 3}
   m_ButtonPressPoint: 0.5
+--- !u!114 &1537228269 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1492699683, guid: 61e44318fefd25b4190418cb5ac00175,
+    type: 3}
+  m_PrefabInstance: {fileID: 2286592434574338164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1623980055 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1623980055, guid: 61e44318fefd25b4190418cb5ac00175,
@@ -2261,6 +2309,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 348253590, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
+      propertyPath: OnPress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 94283667}
     - target: {fileID: 884114027, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
       propertyPath: m_Camera
       value: 
@@ -2383,6 +2435,12 @@ PrefabInstance:
       objectReference: {fileID: 737561008}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
+--- !u!225 &2286592434574338165 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 5110525145991934625, guid: 61e44318fefd25b4190418cb5ac00175,
+    type: 3}
+  m_PrefabInstance: {fileID: 2286592434574338164}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4455714411232013953
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2459,16 +2517,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4902764913463121335, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: m_Volume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4902764913463121335, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: d7a7de86189ab604cbba53b4ce9d4a3f, type: 3}
     - target: {fileID: 6738843896053016151, guid: 2c4031011cdce3f469842c12efabc82f,
         type: 3}
       propertyPath: m_Name
@@ -2506,9 +2554,39 @@ PrefabInstance:
       objectReference: {fileID: 1154825371}
     - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
         type: 3}
+      propertyPath: endGameText
+      value: 
+      objectReference: {fileID: 1062541913}
+    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
+        type: 3}
+      propertyPath: endGameScoreText
+      value: 
+      objectReference: {fileID: 197096212}
+    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
+        type: 3}
+      propertyPath: perfectCanvasGroup
+      value: 
+      objectReference: {fileID: 2286592434574338165}
+    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
+        type: 3}
       propertyPath: musicChoiceDropdown
       value: 
       objectReference: {fileID: 1623980055}
+    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
+        type: 3}
+      propertyPath: scoreBackgroundImage
+      value: 
+      objectReference: {fileID: 1415710984}
+    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
+        type: 3}
+      propertyPath: endGameBackgroundImage
+      value: 
+      objectReference: {fileID: 1537228269}
+    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
+        type: 3}
+      propertyPath: pauseMenuBackgroundImage
+      value: 
+      objectReference: {fileID: 1415710984}
     - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
         type: 3}
       propertyPath: animationOnBPMObject.Array.data[0]

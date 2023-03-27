@@ -49,7 +49,7 @@ public class CountDownBeforeMusic : MonoBehaviour
             
             OnResumeMusic.Invoke();
 
-            GameManager.Instance.TogglePause();
+            GameManager.Instance.PauseGame(false);
         }
     }
 }
