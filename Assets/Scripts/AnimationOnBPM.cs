@@ -15,15 +15,15 @@ public class AnimationOnBPM : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.beat.AddListener(ResetAnim);
+        GameManager.Instance.OnBeat.AddListener(ResetAnim);
     }
     private void OnDisable()
     {
-        if (GameManager.Instance.beat != null)
-        GameManager.Instance.beat.RemoveListener(ResetAnim);
+        if (GameManager.Instance.OnBeat != null)
+        GameManager.Instance.OnBeat.RemoveListener(ResetAnim);
     }
 
-    private void ResetAnim()
+    private void ResetAnim()   // L'animation redémarre à chaque beat pour s'assurer qu'elle reste synchro avec la musique.
     {
         animator.SetTrigger("ResetAnim");
     }

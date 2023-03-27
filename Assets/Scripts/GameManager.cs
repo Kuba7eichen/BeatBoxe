@@ -17,28 +17,23 @@ public class GameManager : MonoBehaviour
 {
 
     private int score = 0;
-    public int Score
-    { get { return score; } }
+    public int Score { get { return score; } }
 
 
     private int multiplier = 2;
-    public int Multiplier
-    { get { return multiplier; } }
+    public int Multiplier { get { return multiplier; } }
 
 
     private int lowMultiplierCount = 0;
-    public int LowMultiplierCount
-    { get { return lowMultiplierCount; } }
+    public int LowMultiplierCount { get { return lowMultiplierCount; } }
 
 
     private bool gameOver = false;
-    public bool GameOver
-    { get { return gameOver; } }
+    public bool GameOver { get { return gameOver; } }
 
 
     private bool gamePaused = true;
-    public bool GamePaused
-    { get { return gamePaused; } }
+    public bool GamePaused { get { return gamePaused; } }
 
 
     [SerializeField] AnimationOnBPM[] animationOnBPMObject;
@@ -58,14 +53,15 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public AudioSource musicAudioSource;
 
-    [SerializeField] private AudioSource multiplierAudioSource;
+    [SerializeField] private AudioSource multiplierAudioSource;  
+    [SerializeField] private AudioSource perfectAudioSource;
+    [SerializeField] private CanvasGroup perfectCanvasGroup;
+
     [SerializeField] private Database[] musics;
-    public Database[] Musics
-    { get { return musics; } }
+    public Database[] Musics { get { return musics; } }
 
     private int actualMusicIndex = 0;
-    public int ActualMusicIndex
-    { get { return actualMusicIndex; } }
+    public int ActualMusicIndex { get { return actualMusicIndex; } }
 
 
     private static GameManager instance;
@@ -88,10 +84,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Spawner spawner;
 
     private bool lastObjectSpawned = false;
-    
+
     [SerializeField] TMP_Dropdown musicChoiceDropdown;
 
-    public UnityEvent beat;
+    [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] TextMeshProUGUI comboText;
+
+
+    public UnityEvent OnBeat;
     private int nextBeat = 0;
 
 
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
         if (musicTime >= nextBeat)
         {
             nextBeat++;
-            beat.Invoke();
+            OnBeat.Invoke();
         }
 
         if (!lastObjectSpawned && !gamePaused && !GameOver)
@@ -180,13 +180,17 @@ public class GameManager : MonoBehaviour
     public void UpdateMultiplier(int pointsToAdd)
     {
         multiplier = Mathf.Clamp(multiplier + pointsToAdd, 1, 8);
+
+        PlayMultiplierSoundWithCustonPitch(multiplier);
+        comboText.text = "X" + multiplier;
+
         if (multiplier == 1)
-        {
+        {           
             lowMultiplierCount++;
         }
         else
         {
-            lowMultiplierCount = 0;
+            lowMultiplierCount = 0;            
         }
 
         if (lowMultiplierCount >= 5)
@@ -197,13 +201,42 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void UpdateScore(int pointsToAdd)
+    private void PlayMultiplierSoundWithCustonPitch(int mult)
     {
-        score += pointsToAdd * multiplier;
+        multiplierAudioSource.pitch = 0.5f + (mult * 0.15f);
+        multiplierAudioSource.Play();
     }
 
 
 
+    public void UpdateScore(int pointsToAdd, bool isPerfect)
+    {
+        score += pointsToAdd * multiplier;
+        scoreText.text = score + " points";
+
+        if (isPerfect)
+        {
+            perfectAudioSource.Play();
+            StartCoroutine(PerfectCanvasGroupFadeOut(2));            
+        }
+    }
+
+
+    private IEnumerator PerfectCanvasGroupFadeOut(float duration)
+    {
+        float elapsedTime = 0.0f;
+        float alpha = 1;
+
+        while (alpha >= 0.0f)
+        {
+            alpha = 1 - (elapsedTime / duration);
+            perfectCanvasGroup.alpha = alpha;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+  
     public bool TogglePause()
     {
         gamePaused = !gamePaused;
