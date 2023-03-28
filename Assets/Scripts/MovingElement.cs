@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,14 +16,16 @@ public abstract class MovingElement : MonoBehaviour
         TODODGE,
         TOPARRY
     }
-
+    [NonSerialized]
     public float _speed;
 
     public ElementType _type;
 
+    [NonSerialized]
     public float HitPrecisionTreshold;
+    [NonSerialized]
     public float ParryPrecisionTreshold;
-    public float SpeedTreshold;
+    [NonSerialized]
     public float MaxScore;
 
     protected GameManager _gameManager;

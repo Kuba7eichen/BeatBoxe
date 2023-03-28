@@ -47,8 +47,10 @@ public class HittableElement : MovingElement
     //Checks from which side the attack came, thus telling weather it was the correct attack
     private bool CheckedAttackDirection(Collider other, int positionToCheckIndex)
     {
-        return (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) > Mathf.Abs(other.transform.position[(positionToCheckIndex + 1) % 3] - transform.position[(positionToCheckIndex + 1) % 3])
-                && Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) > Mathf.Abs(other.transform.position[(positionToCheckIndex + 2) % 3] - transform.position[(positionToCheckIndex + 2) % 3]));
+        return (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) 
+                > Mathf.Abs(other.transform.position[(positionToCheckIndex + 1) % 3] - transform.position[(positionToCheckIndex + 1) % 3])
+                && Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) 
+                > Mathf.Abs(other.transform.position[(positionToCheckIndex + 2) % 3] - transform.position[(positionToCheckIndex + 2) % 3]));
     }
 
     //Checks if the correct hand was used to attack the target
@@ -104,7 +106,9 @@ public class HittableElement : MovingElement
         }
         else
         {
-            return (int) (MaxScore * controllerSpeed.magnitude * ((other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) / (fist.radius + target.radius))); // multipling the max score by the distance between colliders divided by the minimum distance that they can be in accross the given axis. The distance being always bigger, it makes the score lower the less "precise" the given hit is
+            // multipling the max score by the distance between colliders divided by the minimum distance that they can be in accross the given axis. The distance being always bigger, it makes the score lower the less "precise" the given hit is
+            return (int) (MaxScore * controllerSpeed.magnitude * 
+                ((other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) / (fist.radius + target.radius))); 
         }
     }
 }

@@ -91,9 +91,9 @@ public class Spawner : MonoBehaviour
 
 
     // Returns the stack corresponding to the type of the MovingElement object
-    private Stack<MovingElement> EnumToStack(ElementType @enum)
+    private Stack<MovingElement> EnumToStack(ElementType type)
     {
-        switch (@enum)
+        switch (type)
         {
             case ElementType.RIGHTJAB: return disabled_Jab_Right;
             case ElementType.LEFTJAB: return disabled_Jab_Left;
