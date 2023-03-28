@@ -57,9 +57,7 @@ public class GameManager : MonoBehaviour
     [Space(10)]
     [SerializeField] private Image endGameBackgroundImage;
     [SerializeField] private TextMeshProUGUI endGameText;
-    [SerializeField] private TextMeshProUGUI endGameScoreText;
-    [Space(10)]
-    [SerializeField] private Image pauseMenuBackgroundImage;
+    [SerializeField] private TextMeshProUGUI endGameScoreText;   
 
     [SerializeField] private Database[] musics;
     public Database[] Musics { get { return musics; } }
@@ -120,7 +118,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < musics.Length; i++)
         {
             if (musics[i].musicDatas.menuMusic)
-            {
+            {                
                 musicAudioSource.clip = musics[i].musicDatas.audioClip;
                 musicAudioSource.Play();
                 return;
@@ -168,7 +166,7 @@ public class GameManager : MonoBehaviour
             OnBeat.Invoke();
         }
 
-        if (!lastObjectSpawned && !gamePaused && !GameOver)
+        if (!lastObjectSpawned && !gamePaused && !gameOver)
         {
             if (musics[actualMusicIndex].ObjectSpawns.Length > 0 &&
                 musicTime >= musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].SpawnBeat)
@@ -191,7 +189,8 @@ public class GameManager : MonoBehaviour
         score = 0;
         multiplier = 2;
         gamePaused = true;
-        musicAudioSource.Stop();
+        nextSpawnIndex = 0;
+        lastObjectSpawned = false;
         FindAndStartMenuMusic();
         SetAnimatedObjectsBPM();
     }
@@ -263,32 +262,31 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void TogglePause()
-    {
-        gamePaused = !gamePaused;
-        ApplyPause();
-    }
-
     public void PauseGame(bool pause)
     {
-        gamePaused = pause;        
+        gamePaused = pause;
         ApplyPause();
     }
 
     private void ApplyPause()
     {
-        scoreBackgroundImage.gameObject.SetActive(!gamePaused);
+        scoreBackgroundImage.gameObject.SetActive(!gamePaused);        
 
         if (gamePaused)
         {
-            musicAudioSource?.Pause();
+            musicAudioSource.Pause();
         }
         else
         {
             if (musicAudioSource.clip != musics[actualMusicIndex].musicDatas.audioClip)
+            {
                 musicAudioSource.clip = musics[actualMusicIndex].musicDatas.audioClip;
-
-            musicAudioSource?.Play();
+                musicAudioSource.Play();
+            }
+            else
+            {
+                musicAudioSource.UnPause();
+            }
         }
     }
 

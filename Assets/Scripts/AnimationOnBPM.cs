@@ -6,7 +6,8 @@ using UnityEngine;
 public class AnimationOnBPM : MonoBehaviour
 {
     [SerializeField] private Animator animator;
-   
+
+       
     private float musicDelay = 0;
 
     private float BPM = 0;
