@@ -21,19 +21,25 @@ public class HittableElement : MovingElement
     {
         //print("entered a collision: " + other);
         base.OnTriggerEnter(other);
-        if ((playerMask.value & (1 << other.transform.gameObject.layer)) > 0) // check if collision with player
+        if ((_playerMask.value & (1 << other.transform.gameObject.layer)) > 0) // check if collision with player
         {
-            if (CheckedAttackDirection(other, ElementTypeToPositionIndex(type)) && CheckedAttackHand(other)) // attack is correct only if the correct hand was used AND the correct type of attack was performed
+            if (CheckedAttackDirection(other, ElementTypeToPositionIndex(_type)) && CheckedAttackHand(other)) // attack is correct only if the correct hand was used AND the correct type of attack was performed
             {
+                bool isPerfect = false; //is perfect is true when the timing is perfect
                 Debug.Log("Good attack type detected");
-                //_gameManager.UpdateScore(CalculateScore(other));
-                _gameManager.UpdateMultiplier(1);
+                _gameManager.UpdateScore(CalculateScore(other, ElementTypeToPositionIndex(_type)),isPerfect);
+                _gameManager.UpdateMultiplier(isPerfect? 2:1);
             }
             else
             {
                 Debug.Log("Attack detected, but not the right one");
-
+                _gameManager.UpdateMultiplier(-1);
             }
+        }
+        else
+        {
+            Debug.Log("Missed the target");
+            _gameManager.UpdateMultiplier(-1);
         }
         gameObject.SetActive(false);
 
@@ -41,14 +47,16 @@ public class HittableElement : MovingElement
     //Checks from which side the attack came, thus telling weather it was the correct attack
     private bool CheckedAttackDirection(Collider other, int positionToCheckIndex)
     {
-        return (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) > Mathf.Abs(other.transform.position[(positionToCheckIndex + 1) % 3] - transform.position[(positionToCheckIndex + 1) % 3])
-                && Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) > Mathf.Abs(other.transform.position[(positionToCheckIndex + 2) % 3] - transform.position[(positionToCheckIndex + 2) % 3]));
+        return (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) 
+                > Mathf.Abs(other.transform.position[(positionToCheckIndex + 1) % 3] - transform.position[(positionToCheckIndex + 1) % 3])
+                && Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) 
+                > Mathf.Abs(other.transform.position[(positionToCheckIndex + 2) % 3] - transform.position[(positionToCheckIndex + 2) % 3]));
     }
 
     //Checks if the correct hand was used to attack the target
     private bool CheckedAttackHand(Collider other)
     {
-        switch (type)
+        switch (_type)
         {
             case ElementType.LEFTHOOK: return other.gameObject.layer == 8; //LeftHandLayer
             case ElementType.RIGHTHOOK: return other.gameObject.layer == 9; //RightHandLayer
@@ -78,6 +86,29 @@ public class HittableElement : MovingElement
                 Debug.LogError("No index associated to type or not a hittable type");
                 return 0;
 
+        }
+    }
+
+    protected override int CalculateScore(Collider other, int positionToCheckIndex)
+    {
+        SphereCollider fist, target;
+        fist = (SphereCollider) other;
+        target = GetComponent<SphereCollider>();
+        Vector3 controllerSpeed;
+        if (other.gameObject.layer == 9)
+            controllerSpeed = ControllerVelocity.GetControllerVelocity(true);
+        else
+            controllerSpeed = ControllerVelocity.GetControllerVelocity(false);
+
+        if(Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex])< HitPrecisionTreshold)
+        {
+            return (int) (MaxScore * controllerSpeed.magnitude);
+        }
+        else
+        {
+            // multipling the max score by the distance between colliders divided by the minimum distance that they can be in accross the given axis. The distance being always bigger, it makes the score lower the less "precise" the given hit is
+            return (int) (MaxScore * controllerSpeed.magnitude * 
+                ((other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) / (fist.radius + target.radius))); 
         }
     }
 }

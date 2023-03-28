@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,26 +16,33 @@ public abstract class MovingElement : MonoBehaviour
         TODODGE,
         TOPARRY
     }
+    [NonSerialized]
+    public float _speed;
 
-    public float speed;
+    public ElementType _type;
 
-    [SerializeField] public ElementType type;
+    [NonSerialized]
+    public float HitPrecisionTreshold;
+    [NonSerialized]
+    public float ParryPrecisionTreshold;
+    [NonSerialized]
+    public float MaxScore;
 
     protected GameManager _gameManager;
-    protected LayerMask playerMask;
+    protected LayerMask _playerMask;
 
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
         _gameManager = GameManager.Instance;
-        playerMask = _gameManager.PlayerMask;
+        _playerMask = _gameManager.PlayerMask;
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        transform.position += (speed * Time.deltaTime) * Vector3.back;
+        transform.position += (_speed * Time.deltaTime) * Vector3.back;
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -45,5 +53,8 @@ public abstract class MovingElement : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    protected abstract int CalculateScore(Collider other, int positionToCheckIndex);
+   
     
 }
