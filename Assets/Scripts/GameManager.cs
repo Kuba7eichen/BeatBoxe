@@ -14,7 +14,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
-
     private int score = 0;
     public int Score { get { return score; } }
 
@@ -109,7 +108,7 @@ public class GameManager : MonoBehaviour
 
         FindAndStartMenuMusic();
 
-        SetAnimatedObjectsBPM();
+        SetAnimatedObjectsBPM();       
     }
 
 
@@ -201,7 +200,7 @@ public class GameManager : MonoBehaviour
     {
         multiplier = Mathf.Clamp(multiplier + pointsToAdd, 1, 8);
 
-        PlayMultiplierSoundWithCustonPitch(multiplier);
+        PlayMultiplierSoundWithCustomPitch(multiplier);
         comboText.text = "X" + multiplier;
 
         if (multiplier == 1)
@@ -226,7 +225,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    private void PlayMultiplierSoundWithCustonPitch(int mult)
+    private void PlayMultiplierSoundWithCustomPitch(int mult)
     {
         multiplierAudioSource.pitch = 0.5f + (mult * 0.15f);
         multiplierAudioSource.Play();
@@ -324,7 +323,7 @@ public class GameManager : MonoBehaviour
             {
                 if (musics[i].musicDatas.Bpm == 0)
                 {
-                    Debug.LogError("Le BPM de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas été renseigné !");
+                    Debug.LogError("Le BPM de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas été renseigné !");                    
                 }
 
                 for (int j = 0; j < musics[i].ObjectSpawns.Length; j++)

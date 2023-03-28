@@ -43,10 +43,17 @@ public class Spawner : MonoBehaviour
     {
         // On place le spawner en fonction de la vitesse des objets à spawner, du BPM de la musique et du temps (en nombre de beats)
         // avant qu'ils arrivent à la position du joueur :
-        float newZPosition = player.position.z + ((apparitionTimeBeforeReachingPlayerPosition * objectsSpeed) /
-                                                  (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm / 60));
+        if (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm == 0)
+        {
+            Debug.LogError("Le spawner n'a pas pu être placé correctement dans la scène car le BPM de la musique n'est pas renseigné.");
+        }
+        else
+        {
+            float newZPosition = player.position.z + ((apparitionTimeBeforeReachingPlayerPosition * objectsSpeed) /
+                                                      (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm / 60));
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, newZPosition);
+            transform.position = new Vector3(transform.position.x, transform.position.y, newZPosition);
+        }
     }
 
 
