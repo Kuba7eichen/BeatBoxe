@@ -12,12 +12,14 @@ public class CountDownBeforeMusic : MonoBehaviour
     [SerializeField] private int startNumber = 3;
 
     [SerializeField] private GameObject menuBackgroundImage;
-    [SerializeField] private TextMeshProUGUI countDownText;
+    [SerializeField] private TextMeshProUGUI countDownText;   
 
     private int repeatCount = 0;
 
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip countAudioClip;
+
+
    
 
     public UnityEvent OnResumeMusic;
@@ -25,7 +27,7 @@ public class CountDownBeforeMusic : MonoBehaviour
    
     public void LetsGo()
     {
-        GameManager.Instance.musicAudioSource.Stop();
+        GameManager.Instance.musicAudioSource.Pause();
         repeatCount = 0;
         countDownText.gameObject.SetActive(true);
         StartCoroutine(Repeating());
@@ -48,7 +50,6 @@ public class CountDownBeforeMusic : MonoBehaviour
             countDownText.gameObject.SetActive(false);
             
             OnResumeMusic.Invoke();
-
             GameManager.Instance.PauseGame(false);
         }
     }

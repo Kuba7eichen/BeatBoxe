@@ -9,8 +9,14 @@ public class Spawner : MonoBehaviour
 
     [SerializeField] private Transform[] spawnPoints;
 
+    [SerializeField] private Transform player;
+
     [SerializeField] private int nbOfEachPrefabToInstantiate = 8;
 
+    [SerializeField] private float objectsSpeed = 2;
+
+    [Tooltip("This time is in beats, not in seconds.")]
+    [SerializeField] private float apparitionTimeBeforeReachingPlayerPosition = 4;
 
     private Stack<MovingElement> disabled_Jab_Right = new Stack<MovingElement>();
     private Stack<MovingElement> disabled_Jab_Left = new Stack<MovingElement>();
@@ -28,8 +34,21 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        InstantiateObjectsForPool(nbOfEachPrefabToInstantiate);
+        InstantiateObjectsForPool(nbOfEachPrefabToInstantiate);       
     }
+
+
+
+    public void InitialiseSpawnerPosition()
+    {
+        // On place le spawner en fonction de la vitesse des objets à spawner, du BPM de la musique et du temps (en nombre de beats)
+        // avant qu'ils arrivent à la position du joueur :
+        float newZPosition = player.position.z + ((apparitionTimeBeforeReachingPlayerPosition * objectsSpeed) /
+                                                  (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm / 60));
+
+        transform.position = new Vector3(transform.position.x, transform.position.y, newZPosition);
+    }
+
 
     // Initialize the pool at the beginning of the execution
     private void InstantiateObjectsForPool(int number)
@@ -49,7 +68,7 @@ public class Spawner : MonoBehaviour
         GameObject monObjet = Instantiate(prefabToInstantiate);
         monObjet.GetComponent<PoolSignal>().spawner = this;
 
-        monObjet.GetComponent<MovingElement>().speed = 2;
+        monObjet.GetComponent<MovingElement>().speed = objectsSpeed;
         monObjet.SetActive(false);
         return monObjet;
     }
