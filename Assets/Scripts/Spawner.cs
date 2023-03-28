@@ -68,7 +68,7 @@ public class Spawner : MonoBehaviour
         GameObject monObjet = Instantiate(prefabToInstantiate);
         monObjet.GetComponent<PoolSignal>().spawner = this;
 
-        monObjet.GetComponent<MovingElement>().speed = objectsSpeed;
+        monObjet.GetComponent<MovingElement>()._speed = objectsSpeed;
         monObjet.SetActive(false);
         return monObjet;
     }
@@ -113,7 +113,7 @@ public class Spawner : MonoBehaviour
     // This method is called by MovingElement when it is deactivated
     public void AddToPool(MovingElement objectToAdd)
     {
-        EnumToStack(objectToAdd.type).Push(objectToAdd);
+        EnumToStack(objectToAdd._type).Push(objectToAdd);
     }
 
 
@@ -146,7 +146,7 @@ public class Spawner : MonoBehaviour
         GameObject objToReturn = null;
         for (int i = 0; i < prefabsToSpawn.Length; i++)
         {
-            if (prefabsToSpawn[i].GetComponent<MovingElement>().type == elementType)
+            if (prefabsToSpawn[i].GetComponent<MovingElement>()._type == elementType)
             {
                 objToReturn = prefabsToSpawn[i];
                 break;
