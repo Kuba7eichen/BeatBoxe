@@ -13,6 +13,7 @@ public class ToDodgeElement : MovingElement
     protected override void Start()
     {
         base.Start();
+        _type = ElementType.TODODGE;
     }
 
     // Update is called once per frame

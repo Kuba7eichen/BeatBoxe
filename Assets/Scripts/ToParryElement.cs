@@ -19,6 +19,7 @@ public class ToParryElement : MovingElement
         _head = _gameManager.Head;
         _leftHand = _gameManager.LeftHand;
         _rightHand = _gameManager.RightHand;
+        _type = ElementType.TOPARRY;
     }
 
     // Update is called once per frame
