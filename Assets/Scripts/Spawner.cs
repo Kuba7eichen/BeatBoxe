@@ -132,8 +132,6 @@ public class Spawner : MonoBehaviour
     }
 
 
-
-
     // Used to instantiate an object during the game, if the stack is empty.
     private ElementType StackToEnum(Stack<MovingElement> stack)
     {

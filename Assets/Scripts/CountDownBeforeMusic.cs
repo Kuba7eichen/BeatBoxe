@@ -27,7 +27,7 @@ public class CountDownBeforeMusic : MonoBehaviour
    
     public void LetsGo()
     {
-        GameManager.Instance.musicAudioSource.Pause();
+        GameObject.Find("Game Manager").GetComponent<MusicManager>().MusicAudioSource.Pause();        
         repeatCount = 0;
         countDownText.gameObject.SetActive(true);
         StartCoroutine(Repeating());

@@ -724,6 +724,18 @@ AudioSource:
     type: 3}
   m_PrefabInstance: {fileID: 6262175765389704296}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &786187505 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2265829049496138363, guid: 61e44318fefd25b4190418cb5ac00175,
+    type: 3}
+  m_PrefabInstance: {fileID: 2286592434574338164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &954970542
 GameObject:
   m_ObjectHideFlags: 0
@@ -2290,6 +2302,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1590769770 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2286592433754147775, guid: 61e44318fefd25b4190418cb5ac00175,
+    type: 3}
+  m_PrefabInstance: {fileID: 2286592434574338164}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1623980055 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1623980055, guid: 61e44318fefd25b4190418cb5ac00175,
@@ -2321,18 +2345,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 277764548, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 6262175765389704298}
+    - target: {fileID: 614076039, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
+      propertyPath: countDownText
+      value: 
+      objectReference: {fileID: 786187505}
     - target: {fileID: 884114027, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 737561008}
     - target: {fileID: 1026981153, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 94283666}
-    - target: {fileID: 1026981153, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
-      value: 
-      objectReference: {fileID: 94283666}
+      objectReference: {fileID: 6262175765389704298}
     - target: {fileID: 1136433154, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -2449,16 +2477,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 94283666}
-    - target: {fileID: 2286592434286896822, guid: 61e44318fefd25b4190418cb5ac00175,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 94283666}
-    - target: {fileID: 2286592434286896822, guid: 61e44318fefd25b4190418cb5ac00175,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
-      value: 
       objectReference: {fileID: 94283667}
     - target: {fileID: 2286592434491609872, guid: 61e44318fefd25b4190418cb5ac00175,
         type: 3}
@@ -2559,6 +2577,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: comboText
+      value: 
+      objectReference: {fileID: 1314954886}
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: scoreText
+      value: 
+      objectReference: {fileID: 1154825371}
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: endGameText
+      value: 
+      objectReference: {fileID: 1062541913}
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: endGameScoreText
+      value: 
+      objectReference: {fileID: 197096212}
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: perfectCanvasGroup
+      value: 
+      objectReference: {fileID: 2286592434574338165}
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: musicChoiceDropdown
+      value: 
+      objectReference: {fileID: 1623980055}
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: pauseBackgroundImage
+      value: 
+      objectReference: {fileID: 1590769770}
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: scoreBackgroundImage
+      value: 
+      objectReference: {fileID: 393735020}
+    - target: {fileID: 1638756050, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+      propertyPath: endGameBackgroundImage
+      value: 
+      objectReference: {fileID: 1537228269}
     - target: {fileID: 6738843896053016151, guid: 2c4031011cdce3f469842c12efabc82f,
         type: 3}
       propertyPath: m_Name
@@ -2581,49 +2635,9 @@ PrefabInstance:
       objectReference: {fileID: 1416521218}
     - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
         type: 3}
-      propertyPath: comboText
-      value: 
-      objectReference: {fileID: 1314954886}
-    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
       propertyPath: rightHand
       value: 
       objectReference: {fileID: 1528670340}
-    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: scoreText
-      value: 
-      objectReference: {fileID: 1154825371}
-    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: endGameText
-      value: 
-      objectReference: {fileID: 1062541913}
-    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: endGameScoreText
-      value: 
-      objectReference: {fileID: 197096212}
-    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: perfectCanvasGroup
-      value: 
-      objectReference: {fileID: 2286592434574338165}
-    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: musicChoiceDropdown
-      value: 
-      objectReference: {fileID: 1623980055}
-    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: scoreBackgroundImage
-      value: 
-      objectReference: {fileID: 393735020}
-    - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
-        type: 3}
-      propertyPath: endGameBackgroundImage
-      value: 
-      objectReference: {fileID: 1537228269}
     - target: {fileID: 7535650927282368460, guid: 2c4031011cdce3f469842c12efabc82f,
         type: 3}
       propertyPath: animationOnBPMObject.Array.data[0]
@@ -2691,6 +2705,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4031011cdce3f469842c12efabc82f, type: 3}
+--- !u!114 &6262175765389704298 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6208062634166068250, guid: 2c4031011cdce3f469842c12efabc82f,
+    type: 3}
+  m_PrefabInstance: {fileID: 6262175765389704296}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf222989afd7df84aab434afc1fc3433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6404286633583314352
 PrefabInstance:
   m_ObjectHideFlags: 0

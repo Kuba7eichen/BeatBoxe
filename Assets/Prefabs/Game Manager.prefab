@@ -10,7 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7646426287238763618}
   - component: {fileID: 7535650927282368460}
+  - component: {fileID: 1638756050}
+  - component: {fileID: 2182536922208675251}
   - component: {fileID: 6262175765389704298}
+  - component: {fileID: 6208062634166068250}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -56,26 +59,191 @@ MonoBehaviour:
   head: {fileID: 0}
   leftHand: {fileID: 0}
   rightHand: {fileID: 0}
-  musicAudioSource: {fileID: 0}
-  multiplierAudioSource: {fileID: 4902764913463121335}
-  perfectAudioSource: {fileID: 3138343631928235302}
-  perfectCanvasGroup: {fileID: 0}
-  endGameBackgroundImage: {fileID: 0}
-  endGameText: {fileID: 0}
-  endGameScoreText: {fileID: 0}
   musics:
   - {fileID: 11400000, guid: 2f7dd1d6ddf6d6744af8ada26d707d6b, type: 2}
   - {fileID: 11400000, guid: a15ccd7b0f1fa6c4dba9e6265ff01758, type: 2}
   - {fileID: 11400000, guid: ad99c6b199e083142a46c79de30fc643, type: 2}
   - {fileID: 11400000, guid: a5a4f1db1beaff64995558d5a950bd24, type: 2}
   spawner: {fileID: 0}
+  OnBeat:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMultiplierChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1638756050}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: DisplayNewMultiplier
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2182536922208675251}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayMultiplierSoundWithCustomPitch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnScoreUpdated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1638756050}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: DisplayNewScore
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPauseStateChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1638756050}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: DisplayPauseUI
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6208062634166068250}
+        m_TargetAssemblyTypeName: MusicManager, Assembly-CSharp
+        m_MethodName: Pause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnGameOver:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1638756050}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: DisplayGameOverUI
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnPerfectShot:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1638756050}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: DisplayPerfectCanvasGroup
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2182536922208675251}
+        m_TargetAssemblyTypeName: SFXManager, Assembly-CSharp
+        m_MethodName: PlayPerfectShotSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnRestartGame:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6208062634166068250}
+        m_TargetAssemblyTypeName: MusicManager, Assembly-CSharp
+        m_MethodName: FindAndStartMenuMusic
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnMusicChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6208062634166068250}
+        m_TargetAssemblyTypeName: MusicManager, Assembly-CSharp
+        m_MethodName: ChangeMusic
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1638756050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6738843896053016151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ddd75483a8451b43a04ebd0a5730551, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  perfectCanvasGroup: {fileID: 0}
+  endGameBackgroundImage: {fileID: 0}
+  endGameText: {fileID: 0}
+  endGameScoreText: {fileID: 0}
   musicChoiceDropdown: {fileID: 0}
   scoreText: {fileID: 0}
   comboText: {fileID: 0}
   scoreBackgroundImage: {fileID: 0}
-  OnBeat:
-    m_PersistentCalls:
-      m_Calls: []
+  pauseBackgroundImage: {fileID: 0}
+--- !u!114 &2182536922208675251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6738843896053016151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7313b3cb2254ca439cf1c39ee3ce121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  multiplierAudioSource: {fileID: 4902764913463121335}
+  perfectAudioSource: {fileID: 3138343631928235302}
 --- !u!82 &6262175765389704298
 AudioSource:
   m_ObjectHideFlags: 0
@@ -173,6 +341,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6208062634166068250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6738843896053016151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf222989afd7df84aab434afc1fc3433, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7084049024563407313
 GameObject:
   m_ObjectHideFlags: 0

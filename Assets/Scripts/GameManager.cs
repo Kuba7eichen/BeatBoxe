@@ -9,6 +9,17 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+
+[System.Serializable]
+public class UnityIntEvent : UnityEvent<int> { }
+
+[System.Serializable]
+public class UnityBoolEvent : UnityEvent<bool> { }
+
+[System.Serializable]
+public class UnityMusicDatasEvent : UnityEvent<Database.MusicDatas, bool> { }
+
+
 // The Music AudioSource must be attached to the Game Manager game object.
 
 [RequireComponent(typeof(AudioSource))]
@@ -47,17 +58,7 @@ public class GameManager : MonoBehaviour
     public Transform Head { get { return head; } }
     public Transform LeftHand { get { return leftHand; } }
     public Transform RightHand { get { return rightHand; } }
-
-
-    [HideInInspector] public AudioSource musicAudioSource;
-    [SerializeField] private AudioSource multiplierAudioSource;
-    [SerializeField] private AudioSource perfectAudioSource;
-    [SerializeField] private CanvasGroup perfectCanvasGroup;
-    [Space(10)]
-    [SerializeField] private Image endGameBackgroundImage;
-    [SerializeField] private TextMeshProUGUI endGameText;
-    [SerializeField] private TextMeshProUGUI endGameScoreText;   
-
+    
     [SerializeField] private Database[] musics;
     public Database[] Musics { get { return musics; } }
 
@@ -66,7 +67,6 @@ public class GameManager : MonoBehaviour
 
 
     private static GameManager instance;
-
     public static GameManager Instance
     {
         get
@@ -86,77 +86,46 @@ public class GameManager : MonoBehaviour
 
     private bool lastObjectSpawned = false;
 
-    [SerializeField] TMP_Dropdown musicChoiceDropdown;
 
-    [SerializeField] private TextMeshProUGUI scoreText;
-    [SerializeField] private TextMeshProUGUI comboText;
-
-    [SerializeField] private Image scoreBackgroundImage;
-
-
-    public UnityEvent OnBeat;
     private int nextBeat = 0;
+
+
+    [Space(10)]
+    public UnityEvent OnBeat;
+    public UnityIntEvent OnMultiplierChanged;
+    public UnityIntEvent OnScoreUpdated;
+    public UnityBoolEvent OnPauseStateChange;
+    public UnityEvent OnGameOver;
+    public UnityEvent OnPerfectShot;
+    public UnityEvent OnRestartGame;
+    public UnityMusicDatasEvent OnMusicChanged;
+
+    private MusicManager musicManager;
+
+    private void Awake()
+    {
+        instance = this;    
+        musicManager = GetComponent<MusicManager>();
+    }
+
 
 
     private void Start()
     {
 #if UNITY_EDITOR
         CheckMusicDatabases();
-#endif
+#endif      
 
-        BuildMusicChoiceDropdown();
-
-        FindAndStartMenuMusic();
-
-        SetAnimatedObjectsBPM();       
+        SetAnimatedObjectsBPM();
     }
 
-
-    private void FindAndStartMenuMusic()
-    {
-        for (int i = 0; i < musics.Length; i++)
-        {
-            if (musics[i].musicDatas.menuMusic)
-            {                
-                musicAudioSource.clip = musics[i].musicDatas.audioClip;
-                musicAudioSource.Play();
-                return;
-            }
-        }
-    }
-
-
-
-    private void BuildMusicChoiceDropdown()
-    {
-        musicChoiceDropdown.ClearOptions();
-
-        // On crée une liste d'options à partir du tableau de musiques.
-        var options = new List<TMP_Dropdown.OptionData>();
-
-        for (int i = 0; i < musics.Length; i++)
-        {
-            if (!musics[i].musicDatas.menuMusic)    // (On n'ajoute la musique au dropdown que si ce n'est pas une musique de menu.)
-                options.Add(new TMP_Dropdown.OptionData(musics[i].musicDatas.audioClip.name));
-        }
-
-        // On ajoute les options au Dropdown.
-        musicChoiceDropdown.AddOptions(options);
-    }
-
-
-    private void Awake()
-    {
-        instance = this;
-        musicAudioSource = GetComponent<AudioSource>();
-    }
 
 
     private void Update()
     {
         // On se cale sur le rythme du morceau. Chaque unité de musicTime vaut non pas une seconde mais un écart entre deux beats.
         // Et on tient compte du délai initial, pour que les spawns se calent bien sur les beats de la musique :
-        float musicTime = (musicAudioSource.time * musics[actualMusicIndex].musicDatas.Bpm / 60)
+        float musicTime = (musicManager.MusicAudioSource.time * musics[actualMusicIndex].musicDatas.Bpm / 60)
                           - musics[actualMusicIndex].musicDatas.firstBpmDelay;
 
         if (musicTime >= nextBeat)
@@ -185,12 +154,14 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
+        OnRestartGame.Invoke();
+
         score = 0;
         multiplier = 2;
         gamePaused = true;
         nextSpawnIndex = 0;
         lastObjectSpawned = false;
-        FindAndStartMenuMusic();
+       
         SetAnimatedObjectsBPM();
     }
 
@@ -200,8 +171,8 @@ public class GameManager : MonoBehaviour
     {
         multiplier = Mathf.Clamp(multiplier + pointsToAdd, 1, 8);
 
-        PlayMultiplierSoundWithCustomPitch(multiplier);
-        comboText.text = "X" + multiplier;
+        OnMultiplierChanged.Invoke(multiplier);
+
 
         if (multiplier == 1)
         {
@@ -215,48 +186,19 @@ public class GameManager : MonoBehaviour
         if (lowMultiplierCount >= 5)
         {
             gameOver = true;
-
-            endGameBackgroundImage.gameObject.SetActive(gameOver);
-            endGameText.text = "KO!";
-            endGameScoreText.text = "You score: " + score;
-
+            OnGameOver.Invoke();
         }
     }
-
-
-
-    private void PlayMultiplierSoundWithCustomPitch(int mult)
-    {
-        multiplierAudioSource.pitch = 0.5f + (mult * 0.15f);
-        multiplierAudioSource.Play();
-    }
-
 
 
     public void UpdateScore(int pointsToAdd, bool isPerfect)
     {
         score += pointsToAdd * multiplier;
-        scoreText.text = score + " points";
+        OnScoreUpdated.Invoke(score);
 
         if (isPerfect)
         {
-            perfectAudioSource.Play();
-            StartCoroutine(PerfectCanvasGroupFadeOut(1.5f));
-        }
-    }
-
-
-    private IEnumerator PerfectCanvasGroupFadeOut(float duration)
-    {
-        float elapsedTime = 0.0f;
-        float alpha = 1;
-
-        while (alpha >= 0.0f)
-        {
-            alpha = 1 - (elapsedTime / duration);
-            perfectCanvasGroup.alpha = alpha;
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            OnPerfectShot.Invoke();
         }
     }
 
@@ -264,42 +206,19 @@ public class GameManager : MonoBehaviour
     public void PauseGame(bool pause)
     {
         gamePaused = pause;
-        ApplyPause();
+        OnPauseStateChange.Invoke(gamePaused);
     }
-
-    private void ApplyPause()
-    {
-        scoreBackgroundImage.gameObject.SetActive(!gamePaused);        
-
-        if (gamePaused)
-        {
-            musicAudioSource.Pause();
-        }
-        else
-        {
-            if (musicAudioSource.clip != musics[actualMusicIndex].musicDatas.audioClip)
-            {
-                musicAudioSource.clip = musics[actualMusicIndex].musicDatas.audioClip;
-                musicAudioSource.Play();
-            }
-            else
-            {
-                musicAudioSource.UnPause();
-            }
-        }
-    }
-
 
 
     public void ChangeMusic(int musicIndex)
     {
         musicIndex = Mathf.Clamp(musicIndex, 0, musics.Length - 1);
-        musicAudioSource.clip = musics[musicIndex].musicDatas.audioClip;
         actualMusicIndex = musicIndex;
-        musicAudioSource.Play();
+
+        OnMusicChanged.Invoke(musics[musicIndex].musicDatas, true);
+
         SetAnimatedObjectsBPM();
     }
-
 
 
     private void SetAnimatedObjectsBPM()
@@ -323,7 +242,7 @@ public class GameManager : MonoBehaviour
             {
                 if (musics[i].musicDatas.Bpm == 0)
                 {
-                    Debug.LogError("Le BPM de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas été renseigné !");                    
+                    Debug.LogError("Le BPM de la musique " + musics[i].musicDatas.audioClip.name + " n'a pas été renseigné !");
                 }
 
                 for (int j = 0; j < musics[i].ObjectSpawns.Length; j++)
