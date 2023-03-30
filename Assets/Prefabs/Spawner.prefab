@@ -482,4 +482,7 @@ MonoBehaviour:
   player: {fileID: 0}
   nbOfEachPrefabToInstantiate: 8
   objectsSpeed: 2
-  apparitionTimeBeforeReachingPlayerPosition: 6
+  hitPrecisionTreshold: 0.1
+  parryPrecisionTreshold: 0.1
+  perfectTimeTreshold: 0.05
+  timeBeforeReachingPlayerPosition: 4

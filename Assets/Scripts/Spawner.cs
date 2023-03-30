@@ -14,9 +14,12 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int nbOfEachPrefabToInstantiate = 8;
 
     [SerializeField] private float objectsSpeed = 2;
+    [SerializeField] private float hitPrecisionTreshold = 0.1f;
+    [SerializeField] private float parryPrecisionTreshold = 0.1f;
+    [SerializeField] private float perfectTimeTreshold = 0.05f;
 
     [Tooltip("This time is in beats, not in seconds.")]
-    [SerializeField] private float apparitionTimeBeforeReachingPlayerPosition = 4;
+    [SerializeField] private float timeBeforeReachingPlayerPosition = 4;
 
     private Stack<MovingElement> disabled_Jab_Right = new Stack<MovingElement>();
     private Stack<MovingElement> disabled_Jab_Left = new Stack<MovingElement>();
@@ -31,10 +34,13 @@ public class Spawner : MonoBehaviour
     private Stack<MovingElement> disabled_To_Dogde = new Stack<MovingElement>();
     private Stack<MovingElement> disabled_To_Parry = new Stack<MovingElement>();
 
+    private ScoreManager scoreManager;
+
 
     private void Start()
     {
-        InstantiateObjectsForPool(nbOfEachPrefabToInstantiate);       
+        InstantiateObjectsForPool(nbOfEachPrefabToInstantiate);
+        scoreManager = GameManager.Instance.GetComponent<ScoreManager>();
     }
 
 
@@ -49,8 +55,8 @@ public class Spawner : MonoBehaviour
         }
         else
         {
-            float newZPosition = player.position.z + ((apparitionTimeBeforeReachingPlayerPosition * objectsSpeed) /
-                                                      (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm / 60));
+            float newZPosition = player.position.z + (timeBeforeReachingPlayerPosition /
+                                                      (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm / 60) * objectsSpeed);
 
             transform.position = new Vector3(transform.position.x, transform.position.y, newZPosition);
         }
@@ -76,6 +82,9 @@ public class Spawner : MonoBehaviour
         monObjet.GetComponent<PoolSignal>().spawner = this;
 
         monObjet.GetComponent<MovingElement>()._speed = objectsSpeed;
+        monObjet.GetComponent<MovingElement>().HitPrecisionTreshold = hitPrecisionTreshold;
+        monObjet.GetComponent<MovingElement>().ParryPrecisionTreshold = parryPrecisionTreshold;
+        monObjet.GetComponent<MovingElement>().PerfectTimeTreshold = perfectTimeTreshold;
         monObjet.SetActive(false);
         return monObjet;
     }
@@ -128,6 +137,8 @@ public class Spawner : MonoBehaviour
     {
         MovingElement objectToSpawn = SpawnFromStack(EnumToStack(type));
         objectToSpawn.transform.position = spawnPoints[lane - 1].position;
+        objectToSpawn.perfectTime = timeBeforeReachingPlayerPosition /
+                                                      (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm / 60) ;
         return objectToSpawn;
     }
 

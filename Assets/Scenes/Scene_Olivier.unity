@@ -724,18 +724,6 @@ AudioSource:
     type: 3}
   m_PrefabInstance: {fileID: 6262175765389704296}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &786187505 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2265829049496138363, guid: 61e44318fefd25b4190418cb5ac00175,
-    type: 3}
-  m_PrefabInstance: {fileID: 2286592434574338164}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &954970542
 GameObject:
   m_ObjectHideFlags: 0
@@ -2349,10 +2337,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 6262175765389704298}
-    - target: {fileID: 614076039, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
-      propertyPath: countDownText
-      value: 
-      objectReference: {fileID: 786187505}
     - target: {fileID: 884114027, guid: 61e44318fefd25b4190418cb5ac00175, type: 3}
       propertyPath: m_Camera
       value: 

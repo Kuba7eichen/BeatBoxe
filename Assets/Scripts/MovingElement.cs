@@ -26,21 +26,32 @@ public abstract class MovingElement : MonoBehaviour
     [NonSerialized]
     public float ParryPrecisionTreshold;
     [NonSerialized]
-    public float MaxScore;
+    public float PerfectTimeTreshold;
+    [NonSerialized]
+    public float perfectTime;
+    [NonSerialized]
+    public float maxScore;
 
     protected GameManager _gameManager;
+    protected ScoreManager _scoreManager;
     protected LayerMask _playerMask;
+    protected float perfectTimeCounter;
 
+    private void OnEnable()
+    {
+        perfectTimeCounter = 0;
+    }
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
         _gameManager = GameManager.Instance;
+        _scoreManager = GameManager.Instance.GetComponent<ScoreManager>();
         _playerMask = _gameManager.PlayerMask;
     }
 
     // Update is called once per frame
-    protected virtual void Update()
+     protected virtual void Update()
     {
         transform.position += (_speed * Time.deltaTime) * Vector3.back;
     }
@@ -54,7 +65,8 @@ public abstract class MovingElement : MonoBehaviour
         }
     }
 
-    protected abstract int CalculateScore(Collider other, int positionToCheckIndex);
+
+
    
     
 }

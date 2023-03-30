@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class HittableElement : MovingElement
@@ -15,6 +16,8 @@ public class HittableElement : MovingElement
     protected override void Update()
     {
         base.Update();
+        perfectTimeCounter += Time.deltaTime;
+
     }
 
     protected override void OnTriggerEnter(Collider other)
@@ -26,20 +29,22 @@ public class HittableElement : MovingElement
             if (CheckedAttackDirection(other, ElementTypeToPositionIndex(_type)) && CheckedAttackHand(other)) // attack is correct only if the correct hand was used AND the correct type of attack was performed
             {
                 bool isPerfect = false; //is perfect is true when the timing is perfect
+                float timePrecisionMultiplier = CheckTiming(ref isPerfect);
                 Debug.Log("Good attack type detected");
-                _gameManager.UpdateScore(CalculateScore(other, ElementTypeToPositionIndex(_type)),isPerfect);
-                _gameManager.UpdateMultiplier(isPerfect? 2:1);
+
+                _scoreManager.UpdateScore(CalculateScore(other, ElementTypeToPositionIndex(_type), timePrecisionMultiplier), isPerfect);
+                _scoreManager.UpdateMultiplier(isPerfect? 2:1);
             }
             else
             {
                 Debug.Log("Attack detected, but not the right one");
-                _gameManager.UpdateMultiplier(-1);
+                _scoreManager.UpdateMultiplier(-1);
             }
         }
         else
         {
             Debug.Log("Missed the target");
-            _gameManager.UpdateMultiplier(-1);
+            _scoreManager.UpdateMultiplier(-1);
         }
         gameObject.SetActive(false);
 
@@ -89,7 +94,7 @@ public class HittableElement : MovingElement
         }
     }
 
-    protected override int CalculateScore(Collider other, int positionToCheckIndex)
+    private int CalculateScore(Collider other, int positionToCheckIndex, float timePrecisionMultiplier)
     {
         SphereCollider fist, target;
         fist = (SphereCollider) other;
@@ -99,16 +104,29 @@ public class HittableElement : MovingElement
             controllerSpeed = ControllerVelocity.GetControllerVelocity(true);
         else
             controllerSpeed = ControllerVelocity.GetControllerVelocity(false);
-
-        if(Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex])< HitPrecisionTreshold)
+        Vector3 toCheckAgainst = positionToCheckIndex == 0 ? Vector3.right : positionToCheckIndex == 1 ? Vector3.up : Vector3.forward;
+        if(Mathf.Abs(Vector3.Dot(fist.transform.position - transform.position, toCheckAgainst)) > fist.radius + target.radius - HitPrecisionTreshold)
         {
-            return (int) (MaxScore * controllerSpeed.magnitude);
+            return (int) (maxScore * controllerSpeed.magnitude * timePrecisionMultiplier);
         }
         else
         {
-            // multipling the max score by the distance between colliders divided by the minimum distance that they can be in accross the given axis. The distance being always bigger, it makes the score lower the less "precise" the given hit is
-            return (int) (MaxScore * controllerSpeed.magnitude * 
-                ((other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) / (fist.radius + target.radius))); 
+            // multipling the max score by the distance between colliders on the given axis divided by the maximum distance that they can be in accross the given axis. The distance being always lower, it makes the score lower the less "precise" the given hit is
+            return (int) (maxScore * controllerSpeed.magnitude * timePrecisionMultiplier*
+                (Mathf.Abs(Vector3.Dot(fist.transform.position - transform.position, toCheckAgainst)) / (fist.radius + target.radius))); 
+        }
+    }
+    private float CheckTiming(ref bool isPerfect)
+    {
+        if(Mathf.Abs(perfectTimeCounter-perfectTime)<PerfectTimeTreshold)
+        {
+            isPerfect = true;
+            return 1;
+        }
+        else
+        {
+            isPerfect = false;
+            return 1 / (1 + Mathf.Abs(perfectTimeCounter - perfectTime));
         }
     }
 }

@@ -22,10 +22,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image scoreBackgroundImage;
     [SerializeField] private Image pauseBackgroundImage;
 
+    private ScoreManager scoreManager;
 
     private void Start()
     {
         BuildMusicChoiceDropdown();
+        scoreManager = GetComponent<ScoreManager>();
     }
 
 
@@ -57,7 +59,7 @@ public class UIManager : MonoBehaviour
     {
         endGameBackgroundImage.gameObject.SetActive(true);
         endGameText.text = "KO!";
-        endGameScoreText.text = "You score: " + GameManager.Instance.Score;
+        endGameScoreText.text = "You score: " + scoreManager.Score;
     }
 
 

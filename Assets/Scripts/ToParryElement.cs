@@ -35,13 +35,12 @@ public class ToParryElement : MovingElement
         if (CheckIfBlocking(other) && (_playerMask.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Hit with Layermask and blocking");
-            _gameManager.UpdateScore(CalculateScore(other, 0),false); // checking on the x axis and a parry cannot be timed
-            _gameManager.UpdateMultiplier(1);
+            _scoreManager.UpdateScore(CalculateScore(other),false); // checking on the x axis and a parry cannot be timed
         }
         else
         {
             Debug.Log("Player not blocking on contact or missed");
-            _gameManager.UpdateMultiplier(-1);
+            _scoreManager.UpdateMultiplier(-1);
         }
         gameObject.SetActive(false);
 
@@ -63,19 +62,21 @@ public class ToParryElement : MovingElement
         return false;
 
     }
-    protected override int CalculateScore(Collider other, int positionToCheckIndex)
+    private int CalculateScore(Collider other)
     {
         SphereCollider fist, target;
         fist = (SphereCollider)other;
         target = GetComponent<SphereCollider>();
-        
-        if (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) < ParryPrecisionTreshold)
+
+        if (Mathf.Abs(Vector3.Dot(fist.transform.position - transform.position, Vector3.forward)) > fist.radius + target.radius - HitPrecisionTreshold)
         {
-            return (int)(MaxScore);
+            return (int)maxScore;
         }
         else
         {
-            return (int)(MaxScore * ((other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) / (fist.radius + target.radius))); // multipling the max score by the distance between colliders divided by the minimum distance that they can be in accross the given axis. The distance being always bigger, it makes the score lower the less "precise" the given parry is
+            // multipling the max score by the distance between colliders on the given axis divided by the maximum distance that they can be in accross the given axis. The distance being always lower, it makes the score lower the less "precise" the given hit is
+            return (int)(maxScore *
+                (Mathf.Abs(Vector3.Dot(fist.transform.position - transform.position, Vector3.forward)) / (fist.radius + target.radius)));
         }
     }
 }

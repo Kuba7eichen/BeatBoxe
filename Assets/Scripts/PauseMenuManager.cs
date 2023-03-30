@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour
 {
-
     [SerializeField] private Image mainMenuBackgroundImage;
     [SerializeField] private Image pauseMenuBackgroundImage;
     [SerializeField] private TextMeshProUGUI countDownText;

@@ -29,12 +29,9 @@ public class ToDodgeElement : MovingElement
         if ((_playerMask.value & (1 << other.transform.gameObject.layer)) > 0)
         {
             Debug.Log("Hit with Player");
-        _gameManager.UpdateMultiplier(-2);
-        gameObject.SetActive(false);
+            _scoreManager.UpdateMultiplier(-2);
+            gameObject.SetActive(false);
         }
     }
-    protected override int CalculateScore(Collider other, int positionToCheckIndex) //no score calculated for this element anyway
-    {
-        return 0;
-    }
+
 }

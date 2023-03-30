@@ -25,16 +25,10 @@ public class UnityMusicDatasEvent : UnityEvent<Database.MusicDatas, bool> { }
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
-    private int score = 0;
-    public int Score { get { return score; } }
+   
 
 
-    private int multiplier = 2;
-    public int Multiplier { get { return multiplier; } }
-
-
-    private int lowMultiplierCount = 0;
-    public int LowMultiplierCount { get { return lowMultiplierCount; } }
+   
 
 
     private bool gameOver = false;
@@ -92,20 +86,21 @@ public class GameManager : MonoBehaviour
 
     [Space(10)]
     public UnityEvent OnBeat;
-    public UnityIntEvent OnMultiplierChanged;
-    public UnityIntEvent OnScoreUpdated;
+
     public UnityBoolEvent OnPauseStateChange;
     public UnityEvent OnGameOver;
-    public UnityEvent OnPerfectShot;
     public UnityEvent OnRestartGame;
     public UnityMusicDatasEvent OnMusicChanged;
 
     private MusicManager musicManager;
+    private ScoreManager scoreManager;
+
 
     private void Awake()
     {
         instance = this;    
         musicManager = GetComponent<MusicManager>();
+        scoreManager = GetComponent<ScoreManager>();
     }
 
 
@@ -139,7 +134,6 @@ public class GameManager : MonoBehaviour
             if (musics[actualMusicIndex].ObjectSpawns.Length > 0 &&
                 musicTime >= musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].SpawnBeat)
             {
-
                 spawner.SpawnObject(musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].elementType,
                                     musics[actualMusicIndex].ObjectSpawns[nextSpawnIndex].Lane);
 
@@ -155,9 +149,8 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         OnRestartGame.Invoke();
-
-        score = 0;
-        multiplier = 2;
+        scoreManager.InitialiseScore();
+       
         gamePaused = true;
         nextSpawnIndex = 0;
         lastObjectSpawned = false;
@@ -167,40 +160,10 @@ public class GameManager : MonoBehaviour
 
 
 
-    public void UpdateMultiplier(int pointsToAdd)
-    {
-        multiplier = Mathf.Clamp(multiplier + pointsToAdd, 1, 8);
-
-        OnMultiplierChanged.Invoke(multiplier);
+   
 
 
-        if (multiplier == 1)
-        {
-            lowMultiplierCount++;
-        }
-        else
-        {
-            lowMultiplierCount = 0;
-        }
-
-        if (lowMultiplierCount >= 5)
-        {
-            gameOver = true;
-            OnGameOver.Invoke();
-        }
-    }
-
-
-    public void UpdateScore(int pointsToAdd, bool isPerfect)
-    {
-        score += pointsToAdd * multiplier;
-        OnScoreUpdated.Invoke(score);
-
-        if (isPerfect)
-        {
-            OnPerfectShot.Invoke();
-        }
-    }
+    
 
 
     public void PauseGame(bool pause)
@@ -266,7 +229,11 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
+    public void OnLowMultiplier()
+    {
+        gameOver = true;
+        OnGameOver.Invoke();
+    }
 
     public void QuitGame()
     {
