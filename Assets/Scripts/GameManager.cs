@@ -94,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     private MusicManager musicManager;
     private ScoreManager scoreManager;
+    private UIManager uIManager;
 
 
     private void Awake()
@@ -101,6 +102,8 @@ public class GameManager : MonoBehaviour
         instance = this;    
         musicManager = GetComponent<MusicManager>();
         scoreManager = GetComponent<ScoreManager>();
+        uIManager= GetComponent<UIManager>();
+        OnBeat = new UnityEvent();
     }
 
 
@@ -150,7 +153,10 @@ public class GameManager : MonoBehaviour
     {
         OnRestartGame.Invoke();
         scoreManager.InitialiseScore();
-       
+        uIManager.DisplayNewScore(0);
+        uIManager.DisplayNewMultiplier(2);
+       musicManager.MusicAudioSource.Stop();
+        spawner.ResetAllElements();
         gamePaused = true;
         nextSpawnIndex = 0;
         lastObjectSpawned = false;
@@ -233,6 +239,7 @@ public class GameManager : MonoBehaviour
     {
         gameOver = true;
         OnGameOver.Invoke();
+        PauseGame(true);
     }
 
     public void QuitGame()

@@ -17,6 +17,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float hitPrecisionTreshold = 0.1f;
     [SerializeField] private float parryPrecisionTreshold = 0.1f;
     [SerializeField] private float perfectTimeTreshold = 0.05f;
+    [SerializeField] private float maxScore = 100;
 
     [Tooltip("This time is in beats, not in seconds.")]
     [SerializeField] private float timeBeforeReachingPlayerPosition = 4;
@@ -85,6 +86,7 @@ public class Spawner : MonoBehaviour
         monObjet.GetComponent<MovingElement>().HitPrecisionTreshold = hitPrecisionTreshold;
         monObjet.GetComponent<MovingElement>().ParryPrecisionTreshold = parryPrecisionTreshold;
         monObjet.GetComponent<MovingElement>().PerfectTimeTreshold = perfectTimeTreshold;
+        monObjet.GetComponent<MovingElement>().maxScore = maxScore;
         monObjet.SetActive(false);
         return monObjet;
     }
@@ -138,7 +140,7 @@ public class Spawner : MonoBehaviour
         MovingElement objectToSpawn = SpawnFromStack(EnumToStack(type));
         objectToSpawn.transform.position = spawnPoints[lane - 1].position;
         objectToSpawn.perfectTime = timeBeforeReachingPlayerPosition /
-                                                      (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm / 60) ;
+                                   (GameManager.Instance.Musics[GameManager.Instance.ActualMusicIndex].musicDatas.Bpm / 60) ;
         return objectToSpawn;
     }
 
@@ -169,5 +171,15 @@ public class Spawner : MonoBehaviour
             }
         }
         return objToReturn;
+    }
+
+    public void ResetAllElements()
+    {
+        foreach(MovingElement element in FindObjectsByType<MovingElement>(FindObjectsSortMode.None))
+        {
+            element.gameObject.SetActive(false);
+        }
+        
+               
     }
 }

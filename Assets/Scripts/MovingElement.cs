@@ -37,9 +37,17 @@ public abstract class MovingElement : MonoBehaviour
     protected LayerMask _playerMask;
     protected float perfectTimeCounter;
 
+    private Renderer[] _renderers;
+    private bool gameIsPaused = false;
+
     private void OnEnable()
     {
-        perfectTimeCounter = 0;
+
+        GameManager.Instance.OnPauseStateChange.AddListener(TogglePauseElement);
+    }
+    private void OnDisable()
+    {
+        GameManager.Instance.OnPauseStateChange.RemoveListener(TogglePauseElement);
     }
 
     // Start is called before the first frame update
@@ -48,12 +56,16 @@ public abstract class MovingElement : MonoBehaviour
         _gameManager = GameManager.Instance;
         _scoreManager = GameManager.Instance.GetComponent<ScoreManager>();
         _playerMask = _gameManager.PlayerMask;
+        _renderers = GetComponentsInChildren<Renderer>();
     }
 
     // Update is called once per frame
      protected virtual void Update()
     {
-        transform.position += (_speed * Time.deltaTime) * Vector3.back;
+        if(!gameIsPaused)
+        {
+            transform.position += (_speed * Time.deltaTime) * Vector3.back;
+        }
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -65,7 +77,13 @@ public abstract class MovingElement : MonoBehaviour
         }
     }
 
+    public void TogglePauseElement(bool isPause)
+    {
+        foreach (var renderer in _renderers)
+            renderer.enabled = !isPause;
+        gameIsPaused= isPause;
 
+    }
 
    
     

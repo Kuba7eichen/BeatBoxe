@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
 
 public class HittableElement : MovingElement
 {
-
+    HandVelocity _leftHandVelocity, _rightHandVelocity;
     // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
+        _leftHandVelocity = GameManager.Instance.LeftHand.GetComponent<HandVelocity>();
+        _rightHandVelocity = GameManager.Instance.RightHand.GetComponent<HandVelocity>();
     }
 
     // Update is called once per frame
@@ -31,9 +30,8 @@ public class HittableElement : MovingElement
                 bool isPerfect = false; //is perfect is true when the timing is perfect
                 float timePrecisionMultiplier = CheckTiming(ref isPerfect);
                 Debug.Log("Good attack type detected");
-
                 _scoreManager.UpdateScore(CalculateScore(other, ElementTypeToPositionIndex(_type), timePrecisionMultiplier), isPerfect);
-                _scoreManager.UpdateMultiplier(isPerfect? 2:1);
+                _scoreManager.UpdateMultiplier(isPerfect ? 2 : 1);
             }
             else
             {
@@ -52,9 +50,9 @@ public class HittableElement : MovingElement
     //Checks from which side the attack came, thus telling weather it was the correct attack
     private bool CheckedAttackDirection(Collider other, int positionToCheckIndex)
     {
-        return (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) 
+        return (Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex])
                 > Mathf.Abs(other.transform.position[(positionToCheckIndex + 1) % 3] - transform.position[(positionToCheckIndex + 1) % 3])
-                && Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex]) 
+                && Mathf.Abs(other.transform.position[positionToCheckIndex] - transform.position[positionToCheckIndex])
                 > Mathf.Abs(other.transform.position[(positionToCheckIndex + 2) % 3] - transform.position[(positionToCheckIndex + 2) % 3]));
     }
 
@@ -97,28 +95,30 @@ public class HittableElement : MovingElement
     private int CalculateScore(Collider other, int positionToCheckIndex, float timePrecisionMultiplier)
     {
         SphereCollider fist, target;
-        fist = (SphereCollider) other;
+        fist = (SphereCollider)other;
         target = GetComponent<SphereCollider>();
-        Vector3 controllerSpeed;
+        float controllerSpeed;
         if (other.gameObject.layer == 9)
-            controllerSpeed = ControllerVelocity.GetControllerVelocity(true);
+            controllerSpeed = _rightHandVelocity.GetSpeed();
         else
-            controllerSpeed = ControllerVelocity.GetControllerVelocity(false);
+            controllerSpeed = _leftHandVelocity.GetSpeed();
+
+        print("speed: " + controllerSpeed);
         Vector3 toCheckAgainst = positionToCheckIndex == 0 ? Vector3.right : positionToCheckIndex == 1 ? Vector3.up : Vector3.forward;
-        if(Mathf.Abs(Vector3.Dot(fist.transform.position - transform.position, toCheckAgainst)) > fist.radius + target.radius - HitPrecisionTreshold)
+        if (Mathf.Abs(Vector3.Dot(fist.transform.position - transform.position, toCheckAgainst)) > fist.radius + target.radius - HitPrecisionTreshold)
         {
-            return (int) (maxScore * controllerSpeed.magnitude * timePrecisionMultiplier);
+            return (int)(maxScore * controllerSpeed * timePrecisionMultiplier);
         }
         else
         {
             // multipling the max score by the distance between colliders on the given axis divided by the maximum distance that they can be in accross the given axis. The distance being always lower, it makes the score lower the less "precise" the given hit is
-            return (int) (maxScore * controllerSpeed.magnitude * timePrecisionMultiplier*
-                (Mathf.Abs(Vector3.Dot(fist.transform.position - transform.position, toCheckAgainst)) / (fist.radius + target.radius))); 
+            return (int)(maxScore * controllerSpeed * timePrecisionMultiplier *
+                (Mathf.Abs(Vector3.Dot(fist.transform.position - transform.position, toCheckAgainst)) / (fist.radius + target.radius)));
         }
     }
     private float CheckTiming(ref bool isPerfect)
     {
-        if(Mathf.Abs(perfectTimeCounter-perfectTime)<PerfectTimeTreshold)
+        if (Mathf.Abs(perfectTimeCounter - perfectTime) < PerfectTimeTreshold)
         {
             isPerfect = true;
             return 1;

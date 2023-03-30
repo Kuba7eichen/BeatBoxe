@@ -1017,7 +1017,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "",                
+                    "name": "",
                     "id": "31d838df-4d4e-4c16-a373-b9c07d9d2e2a",
                     "path": "<XRController>{RightHand}/Primary2DAxis",
                     "interactions": "Sector(directions=12,sweepBehavior=1),Sector(directions=2,sweepBehavior=2)",
@@ -1489,6 +1489,76 @@
                     "processors": "",
                     "groups": "",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Velocity",
+            "id": "6623eb70-4891-4550-ba57-99d6f0b6f0f6",
+            "actions": [
+                {
+                    "name": "LeftVelocity",
+                    "type": "Value",
+                    "id": "73500789-040b-4932-b674-f1245ce46333",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "RightVelocity",
+                    "type": "Value",
+                    "id": "193df978-01dd-433b-b98f-23a8650af84d",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "76fa45de-32ec-42ce-a4e4-d7a0bd0d1084",
+                    "path": "<XRInputV1::Oculus::OculusTouchControllerLeft>{LeftHand}/devicevelocity",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftVelocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df5af8a3-5e5e-4ab0-89f2-0e880d41b5e6",
+                    "path": "<XRController>{LeftHand}/deviceVelocity",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftVelocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "264ef092-b762-4334-a009-db97f341f901",
+                    "path": "<XRInputV1::Oculus::OculusTouchControllerLeft>{RightHand}/devicevelocity",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightVelocity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9fdba485-a769-429e-bbca-9144a5a8e159",
+                    "path": "<XRController>{RightHand}/deviceVelocity",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightVelocity",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

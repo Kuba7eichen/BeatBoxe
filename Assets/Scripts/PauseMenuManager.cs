@@ -8,6 +8,7 @@ public class PauseMenuManager : MonoBehaviour
 {
     [SerializeField] private Image mainMenuBackgroundImage;
     [SerializeField] private Image pauseMenuBackgroundImage;
+    [SerializeField] private Image endGameBackgroundImage;
     [SerializeField] private TextMeshProUGUI countDownText;
 
 
@@ -15,9 +16,11 @@ public class PauseMenuManager : MonoBehaviour
     {
         if (!mainMenuBackgroundImage.gameObject.activeInHierarchy &&
             !pauseMenuBackgroundImage.gameObject.activeInHierarchy &&
-            !countDownText.gameObject.activeInHierarchy)
+            !countDownText.gameObject.activeInHierarchy &&
+            !endGameBackgroundImage.gameObject.activeInHierarchy)
         {
             GameManager.Instance.PauseGame(true);
+            pauseMenuBackgroundImage.gameObject.SetActive(true);
         }
     }
 }
