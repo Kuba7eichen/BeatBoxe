@@ -21,6 +21,10 @@ public class PauseMenuManager : MonoBehaviour
         {
             GameManager.Instance.PauseGame(true);
             pauseMenuBackgroundImage.gameObject.SetActive(true);
+            foreach(var button in pauseMenuBackgroundImage.GetComponentsInChildren<Button>())
+            {
+                print(button.name);
+            }
         }
     }
 }
