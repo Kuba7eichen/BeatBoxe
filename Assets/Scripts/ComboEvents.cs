@@ -9,7 +9,7 @@ public class ComboEvents : MonoBehaviour
     int comboLevel {get; set;}
     int comboLevelTemp; 
 
-    [SerializeField] GameManager2Test GM;
+   [SerializeField] ScoreManager GM;
     public UnityEvent<int> comboChangeEvent;
 
     void Awake()
@@ -22,7 +22,7 @@ public class ComboEvents : MonoBehaviour
     // Update is called once per frame
     void Update()
     {         
-        comboLevel = GM.Multiplier;
+        comboLevel = GM.Multiplier;  
         comboChange(); 
     }
 
