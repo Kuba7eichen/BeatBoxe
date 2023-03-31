@@ -19,15 +19,21 @@ public class CountDownBeforeMusic : MonoBehaviour
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip countAudioClip;
 
-
+    private MusicManager musicManager;
    
 
     public UnityEvent OnResumeMusic;
 
-   
+    private void Start()
+    {
+        musicManager = FindObjectOfType<MusicManager>();
+    }
+
+
     public void LetsGo()
     {
-        GameObject.Find("Game Manager").GetComponent<MusicManager>().MusicAudioSource.Pause();        
+        musicManager.Pause();
+        //GameObject.Find("Game Manager").GetComponent<MusicManager>().MusicAudioSource.Pause();        
         repeatCount = 0;
         countDownText.gameObject.SetActive(true);
         StartCoroutine(Repeating());

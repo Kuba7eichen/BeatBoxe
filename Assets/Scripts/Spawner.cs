@@ -177,9 +177,7 @@ public class Spawner : MonoBehaviour
     {
         foreach(MovingElement element in FindObjectsByType<MovingElement>(FindObjectsSortMode.None))
         {
-            element.gameObject.SetActive(false);
+            element.gameObject.SetActive(false);          
         }
-        
-               
     }
 }

@@ -25,10 +25,10 @@ public class UnityMusicDatasEvent : UnityEvent<Database.MusicDatas, bool> { }
 [RequireComponent(typeof(AudioSource))]
 public class GameManager : MonoBehaviour
 {
-   
 
 
-   
+
+
 
 
     private bool gameOver = false;
@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     public Transform Head { get { return head; } }
     public Transform LeftHand { get { return leftHand; } }
     public Transform RightHand { get { return rightHand; } }
-    
+
     [SerializeField] private Database[] musics;
     public Database[] Musics { get { return musics; } }
 
@@ -99,10 +99,10 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;    
+        instance = this;
         musicManager = GetComponent<MusicManager>();
         scoreManager = GetComponent<ScoreManager>();
-        uIManager= GetComponent<UIManager>();
+        uIManager = GetComponent<UIManager>();
         OnBeat = new UnityEvent();
     }
 
@@ -155,21 +155,21 @@ public class GameManager : MonoBehaviour
         scoreManager.InitialiseScore();
         uIManager.DisplayNewScore(0);
         uIManager.DisplayNewMultiplier(2);
-       musicManager.MusicAudioSource.Stop();
+        musicManager.FindAndStartMenuMusic();
         spawner.ResetAllElements();
         gamePaused = true;
-        nextSpawnIndex = 0;
+        gameOver = false;
+        nextSpawnIndex = 0;        
         lastObjectSpawned = false;
-       
         SetAnimatedObjectsBPM();
     }
 
 
 
-   
 
 
-    
+
+
 
 
     public void PauseGame(bool pause)

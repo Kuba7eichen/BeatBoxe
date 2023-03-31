@@ -19,12 +19,16 @@ public class MusicManager : MonoBehaviour
     }
 
 
-
     public void Play()
     {
         musicAudioSource.Play();
     }
 
+
+    public void Pause()
+    {
+        musicAudioSource.Pause();
+    }
 
     public void Pause(bool pause)
     {
@@ -43,18 +47,18 @@ public class MusicManager : MonoBehaviour
                 musicAudioSource.UnPause();
             }
         }
-    }
-
-
-    public void Pause()
-    {
-        musicAudioSource.Pause();
-    }
-
+    }    
+    
 
     public void UnPause()
     {
         musicAudioSource.UnPause();
+    }
+
+
+    public void Stop()
+    {
+        musicAudioSource.Stop();
     }
 
 

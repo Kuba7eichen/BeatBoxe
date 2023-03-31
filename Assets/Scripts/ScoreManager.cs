@@ -63,5 +63,6 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         multiplier = 2;
+        lowMultiplierCount = 0;
     }
 }
