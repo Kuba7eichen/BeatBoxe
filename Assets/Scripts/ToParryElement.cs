@@ -31,16 +31,19 @@ public class ToParryElement : MovingElement
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
-
-        if (CheckIfBlocking(other) && (_playerMask.value & (1 << other.transform.gameObject.layer)) > 0)
+        if ((_playerMask.value & (1 << other.transform.gameObject.layer)) > 0)
         {
-            Debug.Log("Hit with Layermask and blocking");
-            _scoreManager.UpdateScore(CalculateScore(other),false); // checking on the x axis and a parry cannot be timed
-        }
-        else
-        {
-            Debug.Log("Player not blocking on contact or missed");
-            _scoreManager.UpdateMultiplier(-1);
+            if (CheckIfBlocking(other))
+            {
+                Debug.Log("Hit with Layermask and blocking");
+                _scoreManager.UpdateScore(CalculateScore(other), false); // checking on the x axis and a parry cannot be timed
+            }
+            else
+            {
+                Debug.Log("Player not blocking on contact");
+                _scoreManager.UpdateMultiplier(-1);
+            }
+            _punchAudioSource.Play();
         }
         gameObject.SetActive(false);
 

@@ -38,6 +38,7 @@ public class HittableElement : MovingElement
                 Debug.Log("Attack detected, but not the right one");
                 _scoreManager.UpdateMultiplier(-1);
             }
+            _punchAudioSource.Play();
         }
         else
         {

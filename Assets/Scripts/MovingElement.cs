@@ -32,6 +32,9 @@ public abstract class MovingElement : MonoBehaviour
     [NonSerialized]
     public float maxScore;
 
+    protected AudioSource _punchAudioSource;
+
+
     protected GameManager _gameManager;
     protected ScoreManager _scoreManager;
     protected LayerMask _playerMask;
@@ -58,6 +61,8 @@ public abstract class MovingElement : MonoBehaviour
         _scoreManager = GameManager.Instance.GetComponent<ScoreManager>();
         _playerMask = _gameManager.PlayerMask;
      //   _renderers = GetComponentsInChildren<Renderer>();
+
+        _punchAudioSource = GameObject.Find("Punch Audio Source").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

@@ -31,6 +31,7 @@ public class ToDodgeElement : MovingElement
             Debug.Log("Hit with Player");
             _scoreManager.UpdateMultiplier(-2);
             gameObject.SetActive(false);
+            _punchAudioSource.Play();
         }
     }
 
