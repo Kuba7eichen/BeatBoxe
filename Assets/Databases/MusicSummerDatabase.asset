@@ -21,63 +21,63 @@ MonoBehaviour:
   - SpawnBeat: 4
     Lane: 2
     elementType: 7
-  - SpawnBeat: 5
+  - SpawnBeat: 6
     Lane: 2
     elementType: 0
-  - SpawnBeat: 6
+  - SpawnBeat: 8
     Lane: 3
     elementType: 6
-  - SpawnBeat: 8
-    Lane: 2
-    elementType: 0
-  - SpawnBeat: 9
-    Lane: 1
-    elementType: 5
   - SpawnBeat: 10
-    Lane: 1
-    elementType: 1
-  - SpawnBeat: 11
     Lane: 2
     elementType: 0
   - SpawnBeat: 12
-    Lane: 2
-    elementType: 0
-  - SpawnBeat: 13
-    Lane: 3
-    elementType: 2
-  - SpawnBeat: 15
-    Lane: 1
-    elementType: 3
-  - SpawnBeat: 17
-    Lane: 3
-    elementType: 7
-  - SpawnBeat: 19
-    Lane: 2
-    elementType: 3
-  - SpawnBeat: 21
     Lane: 1
     elementType: 5
+  - SpawnBeat: 14
+    Lane: 1
+    elementType: 1
+  - SpawnBeat: 16
+    Lane: 2
+    elementType: 0
+  - SpawnBeat: 18
+    Lane: 2
+    elementType: 0
+  - SpawnBeat: 20
+    Lane: 3
+    elementType: 2
   - SpawnBeat: 22
     Lane: 1
-    elementType: 6
-  - SpawnBeat: 23
-    Lane: 2
     elementType: 3
-  - SpawnBeat: 24
-    Lane: 3
-    elementType: 1
   - SpawnBeat: 25
     Lane: 3
+    elementType: 7
+  - SpawnBeat: 28
+    Lane: 2
+    elementType: 3
+  - SpawnBeat: 29
+    Lane: 1
+    elementType: 5
+  - SpawnBeat: 31
+    Lane: 1
+    elementType: 6
+  - SpawnBeat: 33
+    Lane: 2
+    elementType: 3
+  - SpawnBeat: 35
+    Lane: 3
+    elementType: 1
+  - SpawnBeat: 37
+    Lane: 3
     elementType: 0
-  - SpawnBeat: 26
+  - SpawnBeat: 39
     Lane: 2
     elementType: 5
-  - SpawnBeat: 28
+  - SpawnBeat: 41
     Lane: 3
     elementType: 3
-  - SpawnBeat: 30
+  - SpawnBeat: 44
     Lane: 1
     elementType: 2
-  - SpawnBeat: 31
+  - SpawnBeat: 46
     Lane: 2
     elementType: 5

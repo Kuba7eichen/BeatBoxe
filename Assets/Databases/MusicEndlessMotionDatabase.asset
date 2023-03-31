@@ -33,51 +33,51 @@ MonoBehaviour:
   - SpawnBeat: 15
     Lane: 1
     elementType: 1
-  - SpawnBeat: 16
+  - SpawnBeat: 17
     Lane: 2
     elementType: 6
-  - SpawnBeat: 17
+  - SpawnBeat: 20
     Lane: 3
     elementType: 0
-  - SpawnBeat: 18
-    Lane: 3
-    elementType: 3
-  - SpawnBeat: 19
-    Lane: 1
-    elementType: 4
-  - SpawnBeat: 20
-    Lane: 2
-    elementType: 1
   - SpawnBeat: 22
     Lane: 3
+    elementType: 3
+  - SpawnBeat: 24
+    Lane: 1
+    elementType: 4
+  - SpawnBeat: 26
+    Lane: 2
+    elementType: 1
+  - SpawnBeat: 28
+    Lane: 3
     elementType: 7
-  - SpawnBeat: 23
+  - SpawnBeat: 32
     Lane: 2
     elementType: 4
-  - SpawnBeat: 25
+  - SpawnBeat: 33
     Lane: 1
     elementType: 3
-  - SpawnBeat: 27
+  - SpawnBeat: 37
     Lane: 2
     elementType: 4
-  - SpawnBeat: 29
+  - SpawnBeat: 39
     Lane: 3
     elementType: 2
-  - SpawnBeat: 30
+  - SpawnBeat: 41
     Lane: 2
     elementType: 6
-  - SpawnBeat: 32
+  - SpawnBeat: 43
     Lane: 1
     elementType: 1
-  - SpawnBeat: 34
+  - SpawnBeat: 45
     Lane: 1
     elementType: 3
-  - SpawnBeat: 35
+  - SpawnBeat: 47
     Lane: 2
     elementType: 1
-  - SpawnBeat: 36
+  - SpawnBeat: 49
     Lane: 1
     elementType: 6
-  - SpawnBeat: 38
+  - SpawnBeat: 50
     Lane: 2
     elementType: 0
